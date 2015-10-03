@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
 
   this.route('chart-types', function() {
+    this.route('area');
     this.route('bar');
     this.route('geo');
     this.route('line');
