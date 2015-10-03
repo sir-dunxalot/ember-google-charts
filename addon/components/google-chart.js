@@ -1,23 +1,30 @@
 import Ember from 'ember';
 
-const { computed, on, run } = Ember;
+const { assert, computed, on, run } = Ember;
 
 export default Ember.Component.extend({
+
+  /* Options */
+
+  height: null,
+  options: null,
+  title: null,
+  type: null,
+  requiredGooglePackages: null,
+  width: null,
+
+  /* Properties */
+
   chart: null,
   classNameBindings: ['className'],
   classNames: ['google-chart'],
   data: null,
-  height: 300,
-  title: null,
-  type: 'bar',
-  requiredGooglePackages: null,
-  width: 400,
 
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
   }),
 
-  options: computed('height', 'title', 'width', function() {
+  defaultOptions: computed('height', 'title', 'width', function() {
     const { height, title, width } = this.getProperties(
       [ 'height', 'title', 'width' ]
     );
@@ -26,13 +33,15 @@ export default Ember.Component.extend({
       height,
       title,
       width,
-    }
+    };
   }),
+
+  /* Methods */
 
   loadApi: on('didInsertElement', function() {
     const type = this.get('type');
 
-    Ember.assert('You must specify a chart type', type);
+    assert('You must specify a chart type', type);
 
     if (window.google) {
       const google = window.google;
@@ -48,7 +57,7 @@ export default Ember.Component.extend({
   }),
 
   renderChart() {
-    Ember.assert('You have created a chart type without a renderChart() method');
+    assert('You have created a chart type without a renderChart() method');
   },
 
   setupProperties: on('init', function() {
@@ -58,17 +67,25 @@ export default Ember.Component.extend({
   }),
 
   _teardownChart: on('willDestroyElement', function() {
-    this.get('chart').clearChart();
+    const chart = this.get('chart');
+
+    if (chart) {
+      chart.clearChart();
+    }
   }),
 
   _renderChart() {
     const data = this.get('data');
+    const defaultOptions = this.get('defaultOptions');
+    const options = Object.assign(defaultOptions, this.get('options'));
 
     Ember.assert('You have not passed any data to the chart', data);
 
-    this.renderChart(window.google, data).then((chart) => {
+    this.renderChart(window.google, data, options).then((chart) => {
       this.set('chart', chart);
     });
+
+    // $(window).on('resize', run.bind(this, this.renderChart));
   },
 
 });
