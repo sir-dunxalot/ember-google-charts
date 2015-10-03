@@ -47,7 +47,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = '/ember-google-charts';
   }
 
   return ENV;

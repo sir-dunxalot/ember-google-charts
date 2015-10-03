@@ -6,12 +6,10 @@ export default Ember.Component.extend({
 
   /* Options */
 
-  height: null,
+  defaultOptions: {},
   options: null,
-  title: null,
   type: null,
   googlePackages: null,
-  width: null,
 
   /* Properties */
 
@@ -22,18 +20,6 @@ export default Ember.Component.extend({
 
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
-  }),
-
-  defaultOptions: computed('height', 'title', 'width', function() {
-    const { height, title, width } = this.getProperties(
-      [ 'height', 'title', 'width' ]
-    );
-
-    return {
-      height,
-      title,
-      width,
-    };
   }),
 
   /* Methods */
