@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('chart-types', function() {
     this.route('bar');
     this.route('line');
+    this.route('pie');
   });
 
 });

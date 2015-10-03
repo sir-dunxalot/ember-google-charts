@@ -4,6 +4,7 @@ import GoogleChart from './google-chart';
 const { RSVP } = Ember;
 
 export default GoogleChart.extend({
+  googlePackages: ['bar'],
   type: 'bar',
 
   renderChart({ charts, visualization }, data, options) {

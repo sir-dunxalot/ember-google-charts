@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   options: null,
   title: null,
   type: null,
-  requiredGooglePackages: null,
+  googlePackages: null,
   width: null,
 
   /* Properties */
@@ -45,11 +45,10 @@ export default Ember.Component.extend({
 
     if (window.google) {
       const google = window.google;
-      const packages = [`${type}`].concat(this.get('requiredGooglePackages'));
 
       google.load('visualization', '1.0', {
         callback: run.bind(this, this._renderChart),
-        packages,
+        packages: this.get('googlePackages'),
       });
     } else {
       run.later(this, this.loadApi, 200);
@@ -59,12 +58,6 @@ export default Ember.Component.extend({
   renderChart() {
     assert('You have created a chart type without a renderChart() method');
   },
-
-  setupProperties: on('init', function() {
-    this.setProperties({
-      requiredGooglePackages: [],
-    });
-  }),
 
   _teardownChart: on('willDestroyElement', function() {
     const chart = this.get('chart');
