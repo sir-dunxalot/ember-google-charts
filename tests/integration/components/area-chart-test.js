@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('area-chart', 'Integration | Component | area chart', {
-  integration: true
+  integration: true,
 });
 
 test('it renders', function(assert) {

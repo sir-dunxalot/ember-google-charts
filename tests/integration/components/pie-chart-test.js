@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('pie-chart', 'Integration | Component | pie chart', {
-  integration: true
+  integration: true,
 });
 
 test('it renders', function(assert) {
