@@ -6,11 +6,6 @@ const { RSVP } = Ember;
 export default GoogleChart.extend({
   googlePackages: ['corechart'],
   type: 'pie',
-  options: {
-    crosshair: {
-      trigger: 'both',
-    }
-  },
 
   renderChart({ charts, visualization }, data, options) {
     return new RSVP.Promise((resolve /*, reject */) => {

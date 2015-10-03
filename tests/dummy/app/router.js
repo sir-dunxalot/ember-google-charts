@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('bar');
     this.route('line');
     this.route('pie');
+    this.route('scatter');
   });
 
 });
