@@ -21,7 +21,8 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'script-src': "'self' 'unsafe-eval' *.google.com",
-      'style-src': "'self' 'unsafe-inline' *.google.com"
+      'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com",
+      'font-src': "'self' *.gstatic.com *.googleapis.com"
     }
   };
 

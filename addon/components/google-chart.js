@@ -3,6 +3,7 @@ import Ember from 'ember';
 const { computed, on, run } = Ember;
 
 export default Ember.Component.extend({
+  chart: null,
   classNameBindings: ['className'],
   classNames: ['google-chart'],
   data: null,
@@ -56,12 +57,18 @@ export default Ember.Component.extend({
     });
   }),
 
+  _teardownChart: on('willDestroyElement', function() {
+    this.get('chart').clearChart();
+  }),
+
   _renderChart() {
     const data = this.get('data');
 
     Ember.assert('You have not passed any data to the chart', data);
 
-    this.renderChart(window.google, data);
+    this.renderChart(window.google, data).then((chart) => {
+      this.set('chart', chart);
+    });
   },
 
 });

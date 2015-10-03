@@ -1,14 +1,20 @@
 // import Ember from 'ember';
 import GoogleChart from './google-chart';
 
+const { RSVP } = Ember;
+
 export default GoogleChart.extend({
   chartType: 'bar',
 
-  renderChart(google, data) {
-    const dataTable = google.visualization.arrayToDataTable(data);
-    const options = this.get('options');
-    const chart = new google.charts.Bar(this.get('element'));
+  renderChart({ charts, visualization }, data) {
+    return new RSVP.Promise((resolve, reject) => {
+      const chart = new charts.Bar(this.get('element'));
+      const dataTable = visualization.arrayToDataTable(data);
+      const options = this.get('options');
 
-    chart.draw(dataTable, options);
+      chart.draw(dataTable, charts.Bar.convertOptions(options));
+
+      resolve(chart);
+    });
   }
 });
