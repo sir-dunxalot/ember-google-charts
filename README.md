@@ -221,9 +221,16 @@ Ensure tests are passing, then:
 ```sh
 # Update github pages demo
 ember github-pages:commit --message "Added some functionality"
+git push origin gh-pages
+
+# Go back to master branch
+checkout master
 
 # Release to NPM and Github
 ember release # If patch
 ember release --minor # If minor
 ember release --major # If major
+
+# Release on NPM
+npm publish
 ```
