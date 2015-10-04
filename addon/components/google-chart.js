@@ -4,6 +4,11 @@ const { assert, computed, on, run } = Ember;
 
 export default Ember.Component.extend({
 
+  /* Actions */
+
+  chartDidRender: null,
+  packagesDidLoad: null,
+
   /* Options */
 
   defaultOptions: {},
@@ -40,6 +45,7 @@ export default Ember.Component.extend({
 
     if (window.google) {
       this.loadPackages().then(() => {
+        this.sendAction('packagesDidLoad');
         this._renderChart();
       });
     } else {
@@ -64,11 +70,10 @@ export default Ember.Component.extend({
     const defaultOptions = this.get('defaultOptions');
     const options = Object.assign(defaultOptions, this.get('options'));
 
-    console.log(this.get('type'));
-
     assert('You have not passed any data to the chart', data);
 
     this.renderChart(window.google, data, options).then((chart) => {
+      this.sendAction('chartDidRender');
       this.set('chart', chart);
     });
 

@@ -6,8 +6,9 @@ moduleForComponent('area-chart', 'Integration | Component | area chart', {
 });
 
 test('it renders', function(assert) {
-  let chartRendered = false;
-  assert.expect(2);
+  const done = assert.async();
+
+  assert.expect(6);
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
@@ -20,11 +21,30 @@ test('it renders', function(assert) {
     ['2007', 1030, 540],
   ]);
 
-  this.render(hbs`{{area-chart data=data}}`);
+  this.on('chartDidRender', () => {
+    const $component = this.$('div:first-child');
 
-  // Ember.Test.registerWaiter(function() {
-  //   return !!chartRendered;
-  // });
+    assert.ok(!!google.visualization,
+      'The visualization library should have loaded');
+
+    assert.ok(!!google.visualization.AreaChart,
+      'The AreaChart visualization constructor should be available');
+
+    assert.ok($component.find('svg').length,
+      'The component should have an SVG rendered inside it');
+
+    console.log($component);
+
+    assert.ok($component.hasClass('area-chart'),
+      'The component should have the area-chart class');
+
+    assert.ok($component.hasClass('google-chart'),
+      'The component should have the google-chart class');
+
+    done();
+  });
+
+  this.render(hbs`{{area-chart data=data chartDidRender='chartDidRender'}}`);
 
   assert.equal(this.$().text().trim(), '',
     'The component should render');
