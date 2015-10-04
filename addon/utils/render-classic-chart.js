@@ -3,13 +3,27 @@ import Ember from 'ember';
 const { RSVP } = Ember;
 
 export default function renderClassicChart({ charts, visualization }, data, options) {
-  return new RSVP.Promise((resolve /*, reject */) => {
-    const type = Ember.String.capitalize(this.get('type'));
-    const chart = new visualization[`${type}Chart`](this.get('element'));
+  return new RSVP.Promise((resolve, reject) => {
+    const type = this.get('type');
+    const capitalizedType = Ember.String.capitalize(this.get('type'));
+    const chart = new visualization[`${capitalizedType}Chart`](this.get('element'));
     const dataTable = visualization.arrayToDataTable(data);
+
+    visualization.events.addListener(chart, 'error', reject);
+
+    /* For charts that aren't immediately ready, listen for the
+    ready event */
+
+    if (type === 'geo') {
+      visualization.events.addListener(chart, 'ready', function() {
+        resolve(chart);
+      });
+    }
 
     chart.draw(dataTable, options);
 
-    resolve(chart);
+    if (type !== 'geo') {
+      resolve(chart);
+    }
   });
 }

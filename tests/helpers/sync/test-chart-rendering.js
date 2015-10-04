@@ -1,4 +1,4 @@
-import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
 export default function testChartRendering(assert, {
   context,
@@ -14,7 +14,7 @@ export default function testChartRendering(assert, {
 
   context.on('chartDidRender', (chart) => {
     const $component = context.$('div:first-child');
-    const google = window.google;
+    const { google } = window;
     const googlePackage = usingMaterialCharts ? google.charts : google.visualization;
     const constructor = googlePackage[constructorName];
 
@@ -24,9 +24,6 @@ export default function testChartRendering(assert, {
     assert.ok(!!constructor,
       `The ${constructorName} visualization constructor should be available`);
 
-    assert.ok($component.find('svg').length,
-      'The component should have an SVG rendered inside it');
-
     assert.ok($component.hasClass(`${type}-chart`),
       `The component should have the ${type}-chart class`);
 
@@ -35,6 +32,9 @@ export default function testChartRendering(assert, {
 
     assert.equal(chart.constructor, constructor,
       `The component should have a public chart property created by ${constructorName}`);
+
+    assert.ok($component.find('svg').length,
+      'The component should have an SVG rendered inside it');
 
     done();
   });

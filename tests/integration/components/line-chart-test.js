@@ -1,26 +1,26 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import testChartRendering from '../../helpers/sync/test-chart-rendering';
 
 moduleForComponent('line-chart', 'Integration | Component | line chart', {
   integration: true,
 });
 
-test('it renders', function(assert) {
-  assert.expect(2);
+test('Rendering the chart', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('data', [
+    ['Year', 'Sales', 'Expenses'],
+    ['2004', 1000, 400],
+    ['2005', 1170, 460],
+    ['2006', 660, 1120],
+    ['2007', 1030, 540],
+  ]);
 
-  this.render(hbs`{{line-chart}}`);
+  testChartRendering(assert, {
+    context: this,
+    template: hbs`{{line-chart data=data chartDidRender='chartDidRender'}}`,
+    type: 'line',
+    usingMaterialCharts: true,
+  });
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#line-chart}}
-      template block text
-    {{/line-chart}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

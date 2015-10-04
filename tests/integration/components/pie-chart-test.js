@@ -1,26 +1,27 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import testChartRendering from '../../helpers/sync/test-chart-rendering';
 
 moduleForComponent('pie-chart', 'Integration | Component | pie chart', {
   integration: true,
 });
 
-test('it renders', function(assert) {
-  assert.expect(2);
+test('Rendering the chart', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('data', [
+    ['Task', 'Hours per Day'],
+    ['Work', 11],
+    ['Eat', 2],
+    ['Commute', 2],
+    ['Watch TV', 2],
+    ['Sleep', 7],
+  ]);
 
-  this.render(hbs`{{pie-chart}}`);
+  testChartRendering(assert, {
+    context: this,
+    template: hbs`{{pie-chart data=data chartDidRender='chartDidRender'}}`,
+    type: 'pie',
+    usingMaterialCharts: false,
+  });
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#pie-chart}}
-      template block text
-    {{/pie-chart}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

@@ -61,6 +61,7 @@ export default Ember.Component.extend({
     const chart = this.get('chart');
 
     if (chart) {
+      window.google.visualization.events.removeAllListeners(chart);
       chart.clearChart();
     }
   }),
@@ -73,8 +74,8 @@ export default Ember.Component.extend({
     assert('You have not passed any data to the chart', data);
 
     this.renderChart(window.google, data, options).then((chart) => {
-      this.sendAction('chartDidRender', chart);
       this.set('chart', chart);
+      this.sendAction('chartDidRender', chart);
     });
 
     // $(window).on('resize', run.bind(this, this.renderChart));

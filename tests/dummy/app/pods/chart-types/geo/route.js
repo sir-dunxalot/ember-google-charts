@@ -9,7 +9,7 @@ export default Ember.Route.extend({
       ['Canada', 500],
       ['France', 600],
       ['Russia', 700],
-      ['Australia', 600]
+      ['Australia', 600],
     ];
   },
 
