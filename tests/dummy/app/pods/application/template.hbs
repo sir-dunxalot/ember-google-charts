@@ -5,9 +5,12 @@
     {{#paper-toolbar}}
       <div class="md-toolbar-tools">
 
-        <div class="logo">
+        <div class="logo-wrapper">
           <h2 id="title">
-            {{#link-to 'index'}}Ember Google Charts{{/link-to}}
+            {{#link-to 'index'}}
+              <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" class="logo" height="30"/>
+              <span class="text">&nbsp;Google Charts</span>
+            {{/link-to}}
           </h2>
         </div>
       </div>
@@ -40,6 +43,12 @@
           Scatter charts
         {{/paper-item}}
 
+        {{#paper-item}}
+          <a href="https://github.com/sir-dunxalot/ember-google-charts" target="_blank">
+            View Source on Github
+          </a>
+        {{/paper-item}}
+
       {{/paper-list}}
     {{/paper-content}}
 
@@ -57,7 +66,7 @@
       </div>
     {{/paper-toolbar}}
 
-    {{#paper-content class='md-padding'}}
+    {{#paper-content class='md-padding page-content'}}
       {{outlet}}
     {{/paper-content}}
   </div>

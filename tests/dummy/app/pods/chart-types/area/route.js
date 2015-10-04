@@ -1,3 +1,4 @@
+// BEGIN-SNIPPET area-chart-route
 import Ember from 'ember';
 
 export default Ember.Route.extend({
@@ -13,3 +14,4 @@ export default Ember.Route.extend({
   },
 
 });
+// END-SNIPPET

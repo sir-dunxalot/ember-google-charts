@@ -7,6 +7,9 @@ module.exports = function(defaults) {
 
     sassOptions: {
       extension: 'scss',
+      includePaths: [
+        'bower_components/compass-mixins/lib',
+      ],
     },
 
   });

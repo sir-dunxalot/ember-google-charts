@@ -1,6 +1,19 @@
+@import 'compass';
 @import 'ember-paper';
 
 @import 'core/variables';
 @import 'core/mixins';
 
 @import 'components/code';
+
+.logo, .logo-wrapper .text {
+  @include inline-block;
+}
+
+.logo {
+  @include rem(margin-top, -0.7);
+}
+
+.page-content {
+  @include rem(padding, 4);
+}

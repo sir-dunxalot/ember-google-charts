@@ -21,7 +21,7 @@ pre, code {
 pre,
 .hljs {
   background-color: $darkBlue;
-  @include rem(margin, 4);
+  @include rem(margin, 3, 2);
   @include rem(padding, 1.5);
 }
 
@@ -100,20 +100,20 @@ $languages:
   $abbr: null;
 
   // If there is an abbreviation
-  @if length($language) > 2 {
-    $abbr: nth($language, 3);
+  // @if length($language) > 2 {
+  //   $abbr: nth($language, 3);
 
-    .lang-#{$abbr} {
-      &:after {
-        // background-color: rgba($color, 0.5);
-        content: '#{$abbr}';
-      }
-    }
-  } @else {
-    $abbr: $name;
-  }
+  //   .lang-#{$abbr} {
+  //     &:after {
+  //       // background-color: rgba($color, 0.5);
+  //       content: '#{$abbr}';
+  //     }
+  //   }
+  // } @else {
+  //   $abbr: $name;
+  // }
 
-  .lang-#{$name} {
+  .#{$name} {
     &:after {
       // background-color: rgba($color, 0.5);
       content: '#{$abbr}';
