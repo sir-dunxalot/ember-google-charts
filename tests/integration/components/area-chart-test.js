@@ -41,7 +41,7 @@ test('it renders', function(assert) {
       'The component should have the google-chart class');
 
     assert.ok(visualization.AreaChart === chart.constructor,
-      'The component should have a public chart property');
+      'The component should have a public chart property created by AreaChart');
 
     done();
   });
