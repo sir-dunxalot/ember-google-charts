@@ -14,5 +14,8 @@
     "qunit": "~1.18.0",
     "hammerjs": "~2.0.4",
     "matchMedia": "0.2.0"
+  },
+  "devDependencies": {
+    "compass-mixins": "~1.0.2"
   }
 }
