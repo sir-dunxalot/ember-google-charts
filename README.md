@@ -15,6 +15,8 @@ ember install ember-google-charts
 
 ## Usage
 
+See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
+
 - [Charts](#charts)
   - [Default options](#default-options)
 - [Actions](#actions)
