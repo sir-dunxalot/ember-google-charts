@@ -38,7 +38,7 @@ export default Ember.Component.extend({
     });
   },
 
-  setupApi: on('didInsertElement', function() {
+  setupDependencies: on('didInsertElement', function() {
     const type = this.get('type');
 
     Ember.warn('You did not specify a chart type', type);
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
     assert('You have not passed any data to the chart', data);
 
     this.renderChart(window.google, data, options).then((chart) => {
-      this.sendAction('chartDidRender');
+      this.sendAction('chartDidRender', chart);
       this.set('chart', chart);
     });
 
