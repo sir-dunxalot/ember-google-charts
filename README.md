@@ -1,8 +1,11 @@
-# Ember Google Charts
+Ember Google Charts [![Build Status](https://travis-ci.org/sir-dunxalot/ember-google-charts.svg)](https://travis-ci.org/sir-dunxalot/ember-google-charts)
+======
 
 Ember Google Charts makes it very easy to implement [Google Charts](https://developers.google.com/chart/) in Ember CLI apps.
 
 All dependencies are lazy loaded using the [Google JS API Loader](https://developers.google.com/loader/?hl=en), which intelligently caches requests between a user's sessions.
+
+![](https://ctoinsights.files.wordpress.com/2011/07/google-chart-tool.png)
 
 ## Installation
 
