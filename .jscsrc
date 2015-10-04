@@ -70,9 +70,7 @@
     "catch",
     "typeof"
   ],
-  "requirePaddingNewLinesBeforeLineComments": {
-    "allExcept": "firstAfterCurly"
-  },
+  "requirePaddingNewLinesBeforeLineComments": false,
   "requirePaddingNewLinesAfterBlocks": true,
   "requireSemicolons": true,
   "safeContextKeyword": "_this",
