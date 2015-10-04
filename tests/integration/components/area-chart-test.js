@@ -6,21 +6,27 @@ moduleForComponent('area-chart', 'Integration | Component | area chart', {
 });
 
 test('it renders', function(assert) {
+  let chartRendered = false;
   assert.expect(2);
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{area-chart}}`);
+  this.set('data', [
+    ['Year', 'Sales', 'Expenses'],
+    ['2004', 1000, 400],
+    ['2005', 1170, 460],
+    ['2006', 660, 1120],
+    ['2007', 1030, 540],
+  ]);
 
-  assert.equal(this.$().text().trim(), '');
+  this.render(hbs`{{area-chart data=data}}`);
 
-  // Template block usage:
-  this.render(hbs`
-    {{#area-chart}}
-      template block text
-    {{/area-chart}}
-  `);
+  // Ember.Test.registerWaiter(function() {
+  //   return !!chartRendered;
+  // });
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().text().trim(), '',
+    'The component should render');
+
 });

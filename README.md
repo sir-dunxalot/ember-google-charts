@@ -4,22 +4,22 @@ This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+```sh
+ember install ember-google-charts
+```
 
-## Running
+## Development
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+### Releases
 
-## Running Tests
+Ensure tests are passing, then:
 
-* `ember test`
-* `ember test --server`
+```sh
+# Update github pages demo
+ember github-pages:commit --message "Added some functionality"
 
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+# Release to NPM and Github
+ember release # If patch
+ember release --minor # If minor
+ember release --major # If major
+```

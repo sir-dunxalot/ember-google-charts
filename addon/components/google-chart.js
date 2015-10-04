@@ -24,17 +24,23 @@ export default Ember.Component.extend({
 
   /* Methods */
 
-  loadApi: on('didInsertElement', function() {
+  loadPackages() {
+    return new Ember.RSVP.Promise((resolve) => {
+      window.google.load('visualization', '1.0', {
+        callback: resolve,
+        packages: this.get('googlePackages'),
+      });
+    });
+  },
+
+  setupApi: on('didInsertElement', function() {
     const type = this.get('type');
 
-    assert('You must specify a chart type', type);
+    Ember.warn('You did not specify a chart type', type);
 
     if (window.google) {
-      const google = window.google;
-
-      google.load('visualization', '1.0', {
-        callback: run.bind(this, this._renderChart),
-        packages: this.get('googlePackages'),
+      this.loadPackages().then(() => {
+        this._renderChart();
       });
     } else {
       run.later(this, this.loadApi, 200);
@@ -58,7 +64,9 @@ export default Ember.Component.extend({
     const defaultOptions = this.get('defaultOptions');
     const options = Object.assign(defaultOptions, this.get('options'));
 
-    Ember.assert('You have not passed any data to the chart', data);
+    console.log(this.get('type'));
+
+    assert('You have not passed any data to the chart', data);
 
     this.renderChart(window.google, data, options).then((chart) => {
       this.set('chart', chart);
