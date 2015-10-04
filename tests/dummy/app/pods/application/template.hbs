@@ -43,10 +43,14 @@
           Scatter charts
         {{/paper-item}}
 
-        {{#paper-item}}
-          <a href="https://github.com/sir-dunxalot/ember-google-charts" target="_blank">
-            View Source on Github
-          </a>
+        {{#paper-item action='linkTo' param='https://github.com/sir-dunxalot/ember-google-charts'}}
+          {{paper-icon icon='code'}}
+          View Source on Github
+        {{/paper-item}}
+
+        {{#paper-item action='linkTo' param='https://developers.google.com/chart/interactive/docs/'}}
+          {{paper-icon icon='info-outline'}}
+          Google Charts Docs
         {{/paper-item}}
 
       {{/paper-list}}
