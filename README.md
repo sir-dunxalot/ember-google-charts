@@ -15,11 +15,12 @@ ember install ember-google-charts
 
 ## Usage
 
-- Charts
+- [Charts](#charts)
+  - [Default options](#default-options)
 - [Actions](#actions)
   - [chartDidRender](#chartdidrender)
   - [packagesDidLoad](#packagesdidload)
-- Custom Charts
+- [Custom Charts](#custom-charts)
 
 ### Charts
 
@@ -93,6 +94,29 @@ export default Ember.Route.extend({
 Where possible, this addon default to using Material Charts over Google's 'classic' design.
 
 It's very easy to add non-default charts (e.g. table charts or gauge charts) - [see the custom charts docs here](#custom-charts)
+
+#### Default Options
+
+Default options for all charts can be set in the `GoogleChartComponent`. You can also set default options for individual charts, which will override the `GoogleChartComponent` default options.
+
+**Default options are always merged with the options you pass into a component.** Passed in options will only override specific options properties, not the whole options object.
+
+```js
+/* components/google-chart.js */
+
+import GoogleChart from 'ember-google-charts/components/google-chart';
+
+export default GoogleChart.extend({
+
+  defaultOptions: {
+    backgroundColor: '#389fcc',
+    annotations: {
+      alwaysOutside: true,
+    },
+  },
+
+});
+```
 
 ### Actions
 
