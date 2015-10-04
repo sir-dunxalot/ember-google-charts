@@ -69,7 +69,7 @@ export default Ember.Component.extend({
   _renderChart() {
     const data = this.get('data');
     const defaultOptions = this.get('defaultOptions');
-    const options = Object.assign(defaultOptions, this.get('options'));
+    const options = Ember.merge(defaultOptions, this.get('options'));
 
     assert('You have not passed any data to the chart', data);
 
