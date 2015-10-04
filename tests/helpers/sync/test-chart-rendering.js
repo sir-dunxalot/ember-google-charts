@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default function testChartRendering(assert, {
   context,
+  data,
   template,
   type,
   usingMaterialCharts,
@@ -11,6 +12,8 @@ export default function testChartRendering(assert, {
   const done = assert.async();
 
   assert.expect(6);
+
+  context.set('data', data);
 
   context.on('chartDidRender', (chart) => {
     const $component = context.$('div:first-child');
