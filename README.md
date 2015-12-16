@@ -23,6 +23,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
   - [chartDidRender](#chartdidrender)
   - [packagesDidLoad](#packagesdidload)
 - [Custom Charts](#custom-charts)
+- [Content Security Policy](#content-security-policy)
 
 ### Charts
 
@@ -213,6 +214,18 @@ export default GoogleChart.extend({
 If preferred, you can write your own `renderChart` method. Use the [`renderMaterialChart` util as your guide](https://github.com/sir-dunxalot/ember-google-charts/blob/master/addon/utils/render-material-chart.js).
 
 `renderChart` receives `window.google` as it's first argument and it must return a promise that resolves with the chart object (`resolve(chart)`).
+
+### Content Security Policy
+
+You will need to add the following to your app's [content security policy](https://github.com/rwjblue/ember-cli-content-security-policy) to mitigate CSP errors:
+
+```js
+contentSecurityPolicy: {
+  'script-src': "'self' 'unsafe-eval' *.google.com *.gstatic.com",
+  'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com",
+  'font-src': "'self' *.gstatic.com *.googleapis.com",
+}
+```
 
 ## Development
 

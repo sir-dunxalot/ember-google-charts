@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/sir-dunxalot/ember-google-charts.git"
   },
+  "bugs": {
+    "url": "https://github.com/sir-dunxalot/ember-google-charts/issues"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
