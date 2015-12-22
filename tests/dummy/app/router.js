@@ -16,6 +16,8 @@ Router.map(function() {
     this.route('scatter');
   });
 
+  this.route('promises');
+
 });
 
 export default Router;

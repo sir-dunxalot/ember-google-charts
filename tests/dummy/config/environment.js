@@ -22,7 +22,7 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'script-src': "'self' 'unsafe-eval' *.google.com *.gstatic.com",
       'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com",
-      'img-src': "'self' http://miguelcobain.github.io",
+      'img-src': "'self' http://miguelcobain.github.io data:",
       'font-src': "'self' *.gstatic.com *.googleapis.com",
       'frame-src': "'self' https://google-developers.appspot.com",
     }

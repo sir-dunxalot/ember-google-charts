@@ -11,7 +11,12 @@ export default Ember.Component.extend({
 
   /* Options */
 
-  defaultOptions: {},
+  defaultOptions: {
+    animation: {
+      duration: 500,
+      startup: false,
+    },
+  },
   options: null,
   type: null,
   googlePackages: null,
@@ -27,6 +32,10 @@ export default Ember.Component.extend({
     return `${this.get('type')}-chart`;
   }),
 
+  mergedOptions: computed('defaultOptions', 'options', function() {
+    return Ember.merge(this.get('defaultOptions'), this.get('options'));
+  }),
+
   /* Methods */
 
   loadPackages() {
@@ -37,6 +46,20 @@ export default Ember.Component.extend({
       });
     });
   },
+
+  renderChart() {
+    assert('You have created a chart type without a renderChart() method');
+  },
+
+  /* TODO - Remove observer in favor of component lifecycle hooks */
+
+  rerenderChart: Ember.observer('data', function() {
+    const chart = this.get('chart');
+
+    if (chart) {
+      this._renderChart();
+    }
+  }),
 
   setupDependencies: on('didInsertElement', function() {
     const type = this.get('type');
@@ -53,10 +76,6 @@ export default Ember.Component.extend({
     }
   }),
 
-  renderChart() {
-    assert('You have created a chart type without a renderChart() method');
-  },
-
   _teardownChart: on('willDestroyElement', function() {
     const chart = this.get('chart');
 
@@ -69,11 +88,11 @@ export default Ember.Component.extend({
   _renderChart() {
     const data = this.get('data');
     const defaultOptions = this.get('defaultOptions');
-    const options = Ember.merge(defaultOptions, this.get('options'));
+    const mergedOptions = this.get('mergedOptions');
 
     assert('You have not passed any data to the chart', data);
 
-    this.renderChart(window.google, data, options).then((chart) => {
+    this.renderChart(window.google, data, mergedOptions).then((chart) => {
       this.set('chart', chart);
       this.sendAction('chartDidRender', chart);
     });

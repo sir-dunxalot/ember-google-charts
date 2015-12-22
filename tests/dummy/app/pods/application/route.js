@@ -9,7 +9,9 @@ export default Ember.Route.extend({
     },
 
     transitionTo(routeName) {
-      const name = Ember.String.capitalize(routeName.split('.')[1]);
+      const routeNameParts = routeName.split('.');
+      const pageTitleIndex = routeNameParts.length - 1;
+      const name = Ember.String.capitalize(routeNameParts[pageTitleIndex]);
 
       this.transitionTo(routeName);
       this.controller.set('pageTitle', `${name} Charts`);
