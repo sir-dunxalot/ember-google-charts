@@ -185,7 +185,7 @@ export default Ember.Controller.extend({
 {{line-chart
   data=data
   options=options
-  packagesDidLoad='selectCountry'
+  packagesDidLoad='checkGoogleExists'
 }}
 ```
 
