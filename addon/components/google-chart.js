@@ -56,7 +56,7 @@ export default Ember.Component.extend({
   rerenderChart: Ember.observer('data', function() {
     const chart = this.get('chart');
 
-    if (chart) {
+    if (chart && this.get('data')) {
       this._renderChart();
     }
   }),
@@ -88,8 +88,6 @@ export default Ember.Component.extend({
   _renderChart() {
     const data = this.get('data');
     const mergedOptions = this.get('mergedOptions');
-
-    assert('You have not passed any data to the chart', data);
 
     this.renderChart(window.google, data, mergedOptions).then((chart) => {
       this.set('chart', chart);
