@@ -20,6 +20,7 @@ export default Ember.Component.extend({
   options: null,
   type: null,
   googlePackages: null,
+  language: 'en',
 
   /* Properties */
 
@@ -43,6 +44,7 @@ export default Ember.Component.extend({
       window.google.load('visualization', '1.0', {
         callback: resolve,
         packages: this.get('googlePackages'),
+        language: this.get('language'),
       });
     });
   },
