@@ -16,7 +16,7 @@ moduleForComponent('line-chart', 'Integration | Component | chart options change
   integration: true,
 });
 
-test('it renders', function(assert) {
+test('Changing options and rerender', function(assert) {
   assert.expect(2);
 
   const done = assert.async();
