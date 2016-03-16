@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { assert, computed, on, run } = Ember;
+const { assert, computed, observer, on, run, $ } = Ember;
 
 export default Ember.Component.extend({
 
@@ -33,7 +33,7 @@ export default Ember.Component.extend({
   }),
 
   mergedOptions: computed('defaultOptions', 'options', function() {
-    return Ember.merge(this.get('defaultOptions'), this.get('options'));
+    return $.extend({}, this.get('defaultOptions'), this.get('options'));
   }),
 
   /* Methods */
@@ -53,7 +53,7 @@ export default Ember.Component.extend({
 
   /* TODO - Remove observer in favor of component lifecycle hooks */
 
-  rerenderChart: Ember.observer('data', function() {
+  rerenderChart: observer('data', 'mergedOptions', function() {
     const chart = this.get('chart');
 
     if (chart && this.get('data')) {
