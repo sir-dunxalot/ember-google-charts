@@ -222,7 +222,7 @@ You will need to add the following to your app's [content security policy](https
 ```js
 contentSecurityPolicy: {
   'script-src': "'self' 'unsafe-eval' *.google.com *.gstatic.com",
-  'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com",
+  'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
   'font-src': "'self' *.gstatic.com *.googleapis.com",
 }
 ```

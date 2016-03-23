@@ -1,4 +1,5 @@
 import Ember from 'ember';
+// import ENV from '../config/environment';
 
 const { assert, computed, observer, on, run, $ } = Ember;
 
@@ -41,7 +42,8 @@ export default Ember.Component.extend({
 
   loadPackages() {
     return new Ember.RSVP.Promise((resolve) => {
-      window.google.load('visualization', '1.0', {
+      // console.log(ENV);
+      window.google.charts.load('current', {
         callback: resolve,
         packages: this.get('googlePackages'),
         language: this.get('language'),
@@ -68,13 +70,14 @@ export default Ember.Component.extend({
 
     Ember.warn('You did not specify a chart type', type);
 
-    if (window.google) {
+    if (window.google.charts) {
       this.loadPackages().then(() => {
         this.sendAction('packagesDidLoad');
         this._renderChart();
       });
     } else {
-      run.later(this, this.loadApi, 200);
+      console.log('checking');
+      run.later(this, this.setupDependencies, 200);
     }
   }),
 
