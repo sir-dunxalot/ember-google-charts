@@ -1,5 +1,4 @@
 import Ember from 'ember';
-// import ENV from '../config/environment';
 
 const { assert, computed, observer, on, run, $ } = Ember;
 
@@ -20,8 +19,6 @@ export default Ember.Component.extend({
   },
   options: null,
   type: null,
-  googlePackages: null,
-  language: 'en',
 
   /* Properties */
 
@@ -29,26 +26,24 @@ export default Ember.Component.extend({
   classNameBindings: ['className'],
   classNames: ['google-chart'],
   data: null,
+  googleCharts: Ember.inject.service(),
 
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
   }),
 
   mergedOptions: computed('defaultOptions', 'options', function() {
-    return $.extend({}, this.get('defaultOptions'), this.get('options'));
+    const defaultOptions = this.get('defaultOptions');
+    const options = this.get('options');
+
+    return $.extend({}, defaultOptions, options);
   }),
 
   /* Methods */
 
-  loadPackages() {
-    return new Ember.RSVP.Promise((resolve) => {
-      // console.log(ENV);
-      window.google.charts.load('current', {
-        callback: resolve,
-        packages: this.get('googlePackages'),
-        language: this.get('language'),
-      });
-    });
+  didRender() {
+    this._super(...arguments);
+    this.setupDependencies();
   },
 
   renderChart() {
@@ -65,21 +60,16 @@ export default Ember.Component.extend({
     }
   }),
 
-  setupDependencies: on('didInsertElement', function() {
+  setupDependencies() {
     const type = this.get('type');
 
     Ember.warn('You did not specify a chart type', type);
 
-    if (window.google.charts) {
-      this.loadPackages().then(() => {
-        this.sendAction('packagesDidLoad');
-        this._renderChart();
-      });
-    } else {
-      console.log('checking');
-      run.later(this, this.setupDependencies, 200);
-    }
-  }),
+    this.get('googleCharts').loadPackages().then(() => {
+      this.sendAction('packagesDidLoad');
+      this._renderChart();
+    });
+  },
 
   _teardownChart: on('willDestroyElement', function() {
     const chart = this.get('chart');
@@ -94,12 +84,10 @@ export default Ember.Component.extend({
     const data = this.get('data');
     const mergedOptions = this.get('mergedOptions');
 
-    this.renderChart(window.google, data, mergedOptions).then((chart) => {
+    this.renderChart(data, mergedOptions).then((chart) => {
       this.set('chart', chart);
       this.sendAction('chartDidRender', chart);
     });
-
-    // $(window).on('resize', run.bind(this, this.renderChart));
   },
 
 });
