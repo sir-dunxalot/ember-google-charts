@@ -19,6 +19,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 
 - [Charts](#charts)
   - [Default options](#default-options)
+  - [Locales](#locales)
 - [Actions](#actions)
   - [chartDidRender](#chartdidrender)
   - [packagesDidLoad](#packagesdidload)
@@ -121,6 +122,24 @@ export default GoogleChart.extend({
 });
 ```
 
+#### Locales
+
+You can set the language of the charts you render by specifying the language code in the `google-charts` service:
+
+```js
+/* services/google-charts.js */
+
+import GoogleChartsService from 'ember-google-charts/services/google-charts';
+
+export GoogleChartsService.extend({
+  language: 'fr',
+});
+```
+
+For more information on locales, see the [Google Charts documentaion](https://developers.google.com/chart/interactive/docs/basic_load_libs#loadwithlocale).
+
+Please note, Google Charts dependencies can only be loaded for a single language. This is a [limitation](https://developers.google.com/chart/interactive/docs/basic_load_libs#basic-library-loading) of the Google API loader.
+
 ### Actions
 
 Two actions are available for you to hook on to:
@@ -193,8 +212,8 @@ export default Ember.Controller.extend({
 
 All chart components in this addon extend from a single core component: the `GoogleChartComponent`.
 
-1. Find the type of chart in [the Google guides](https://developers.google.com/chart/interactive/docs/)
-2. List the Google packages you require
+1. Find the type of chart in [the Google guides](https://developers.google.com/chart/interactive/docs/) and see what Google Charts package it requires
+2. Update the [Google Chart service](https://github.com/sir-dunxalot/ember-google-charts/blob/master/addon/services/google-charts.js) `packages` property with the new Google Charts package you require (if applicable)
 3. Use the `renderMaterialChart` util or `renderClassicChart` util (depending on what Google supports for the chart type) to write a `renderChart` function
 
 ```js
@@ -204,16 +223,25 @@ import GoogleChart from 'ember-google-charts/components/google-chart';
 import renderMaterialChart from 'ember-google-charts/utils/render-material-chart';
 
 export default GoogleChart.extend({
-  googlePackages: ['gantt'],
   type: 'gantt',
 
   renderChart: renderMaterialChart,
 });
 ```
 
+```js
+/* services/google-charts.js */
+
+import GoogleChartsService from 'ember-google-charts/services/google-charts';
+
+export GoogleChartsService.extend({
+  googlePackages: ['corechart', 'bar', 'line', 'scatter', 'gantt'],
+});
+```
+
 If preferred, you can write your own `renderChart` method. Use the [`renderMaterialChart` util as your guide](https://github.com/sir-dunxalot/ember-google-charts/blob/master/addon/utils/render-material-chart.js).
 
-`renderChart` receives `window.google` as it's first argument and it must return a promise that resolves with the chart object (`resolve(chart)`).
+`renderChart` receives the chart `data` and `options` as params and it must return a promise that resolves with the chart object (`resolve(chart)`).
 
 ### Content Security Policy
 
