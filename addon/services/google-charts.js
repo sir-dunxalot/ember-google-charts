@@ -10,7 +10,8 @@ export default Ember.Service.extend({
 
   loadPackages() {
     return new Ember.RSVP.Promise((resolve) => {
-      const wasPreviouslyLoadedInTestSuite = window.google.visualization;
+      const { google } = window;
+      const wasPreviouslyLoadedInTestSuite = google && google.visualization;
 
       if (this.get('_loadComplete') || wasPreviouslyLoadedInTestSuite) {
 
@@ -28,7 +29,7 @@ export default Ember.Service.extend({
       } else {
         this.set('_calledLoad', true);
 
-        window.google.charts.load('current', {
+        google.charts.load('current', {
           language: this.get('language'),
           packages: this.get('googlePackages'),
 
