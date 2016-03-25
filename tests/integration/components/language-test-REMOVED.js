@@ -23,13 +23,10 @@ test('Setting language', function(assert) {
 
   this.setProperties({
     data,
-    language: 'fr',
     options: {
       hAxis: { format: 'MMMM' },
     },
   });
-
-  this.render(hbs`{{line-chart data=data language=language options=options chartDidRender='chartDidRender'}}`);
 
   this.on('chartDidRender', () => {
 
@@ -39,5 +36,7 @@ test('Setting language', function(assert) {
     }, 500);
 
   });
+
+  this.render(hbs`{{line-chart data=data language='fr' options=options chartDidRender='chartDidRender'}}`);
 
 });

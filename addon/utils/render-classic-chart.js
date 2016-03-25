@@ -2,8 +2,9 @@ import Ember from 'ember';
 
 const { RSVP } = Ember;
 
-export default function renderClassicChart({ charts, visualization }, data, options) {
+export default function renderClassicChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {
+    const { visualization } = window.google;
     const type = this.get('type');
     const capitalizedType = Ember.String.capitalize(this.get('type'));
     const chart = new visualization[`${capitalizedType}Chart`](this.get('element'));

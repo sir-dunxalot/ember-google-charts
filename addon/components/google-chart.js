@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
-const { assert, computed, observer, on, run, $ } = Ember;
+const { $, assert, computed } = Ember;
+const isUsingEmber2 = Ember.VERSION.match(/\b2\.\d+.\d+\b/g);
 
 export default Ember.Component.extend({
 
@@ -11,6 +12,7 @@ export default Ember.Component.extend({
 
   /* Options */
 
+  data: null,
   defaultOptions: {
     animation: {
       duration: 500,
@@ -19,84 +21,108 @@ export default Ember.Component.extend({
   },
   options: null,
   type: null,
-  googlePackages: null,
-  language: 'en',
 
   /* Properties */
 
   chart: null,
   classNameBindings: ['className'],
   classNames: ['google-chart'],
-  data: null,
+  googleCharts: Ember.inject.service(),
 
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
   }),
 
+  /**
+  The default options object with any properties specified
+  in the options property overriding specific default options.
+
+  @property mergedOptions
+  @public
+  */
+
   mergedOptions: computed('defaultOptions', 'options', function() {
-    return $.extend({}, this.get('defaultOptions'), this.get('options'));
+    const defaultOptions = this.get('defaultOptions');
+    const options = this.get('options');
+
+    return $.extend({}, defaultOptions, options);
   }),
 
   /* Methods */
 
-  loadPackages() {
-    return new Ember.RSVP.Promise((resolve) => {
-      window.google.load('visualization', '1.0', {
-        callback: resolve,
-        packages: this.get('googlePackages'),
-        language: this.get('language'),
-      });
+  didInsertElement() {
+    this._super(...arguments);
+    this.setupDependencies();
+
+    /* If the Ember version is less than 2.0.0... */
+
+    if (!isUsingEmber2) {
+      this.addObserver('data', this, this._rerenderChart);
+      this.addObserver('mergedOptions', this, this._rerenderChart);
+    }
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this._rerenderChart();
+  },
+
+  setupDependencies() {
+    const type = this.get('type');
+
+    Ember.warn('You did not specify a chart type', type);
+
+    this.get('googleCharts').loadPackages().then(() => {
+      this.sendAction('packagesDidLoad');
+      this._renderChart();
     });
   },
+
+  /**
+  The method that components that extend this component should
+  overwrite.
+
+  @method renderChart
+  @public
+  */
 
   renderChart() {
     assert('You have created a chart type without a renderChart() method');
   },
 
-  /* TODO - Remove observer in favor of component lifecycle hooks */
+  willDestroyElement() {
+    this._super(...arguments);
+    this._teardownChart();
+  },
 
-  rerenderChart: observer('data', 'mergedOptions', function() {
-    const chart = this.get('chart');
-
-    if (chart && this.get('data')) {
+  _rerenderChart() {
+    if (this.get('chart') && this.get('data')) {
       this._renderChart();
     }
-  }),
+  },
 
-  setupDependencies: on('didInsertElement', function() {
-    const type = this.get('type');
+  _renderChart() {
+    const data = this.get('data');
+    const mergedOptions = this.get('mergedOptions');
 
-    Ember.warn('You did not specify a chart type', type);
+    this.renderChart(data, mergedOptions).then((chart) => {
+      this.set('chart', chart);
+      this.sendAction('chartDidRender', chart);
+    });
+  },
 
-    if (window.google) {
-      this.loadPackages().then(() => {
-        this.sendAction('packagesDidLoad');
-        this._renderChart();
-      });
-    } else {
-      run.later(this, this.loadApi, 200);
-    }
-  }),
-
-  _teardownChart: on('willDestroyElement', function() {
+  _teardownChart() {
     const chart = this.get('chart');
 
     if (chart) {
       window.google.visualization.events.removeAllListeners(chart);
       chart.clearChart();
     }
-  }),
 
-  _renderChart() {
-    const data = this.get('data');
-    const mergedOptions = this.get('mergedOptions');
-
-    this.renderChart(window.google, data, mergedOptions).then((chart) => {
-      this.set('chart', chart);
-      this.sendAction('chartDidRender', chart);
-    });
-
-    // $(window).on('resize', run.bind(this, this.renderChart));
+    if (!isUsingEmber2) {
+      this.removeObserver('data', this, this._rerenderChart);
+      this.removeObserver('mergedOptions', this, this._rerenderChart);
+    }
   },
 
 });

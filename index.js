@@ -6,7 +6,7 @@ module.exports = {
 
   contentFor: function(type) {
     if (type === 'body-footer') {
-      return '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
+      return '<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>';
     }
   }
 };
