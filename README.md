@@ -1,4 +1,4 @@
-Ember Google Charts [![Build Status](https://travis-ci.org/sir-dunxalot/ember-google-charts.svg)](https://travis-ci.org/sir-dunxalot/ember-google-charts)
+Ember Google Charts [![Build Status](https://travis-ci.org/sir-dunxalot/ember-google-charts.svg)](https://travis-ci.org/sir-dunxalot/ember-google-charts) [![npm](https://img.shields.io/npm/v/ember-google-charts.svg)](https://www.npmjs.com/package/ember-google-charts)
 ======
 
 Ember Google Charts makes it very easy to implement [Google Charts](https://developers.google.com/chart/) in Ember CLI apps.
