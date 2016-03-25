@@ -28,8 +28,6 @@ test('Changing options and rerender', function(assert) {
     options: { title },
   });
 
-  this.render(hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`);
-
   this.on('chartDidRender', () => {
 
     later(() => {
@@ -46,6 +44,10 @@ test('Changing options and rerender', function(assert) {
 
     }, 500);
 
+    this.on('chartDidRender', Ember.K);
+
   });
+
+  this.render(hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`);
 
 });

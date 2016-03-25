@@ -10,7 +10,9 @@ export default Ember.Service.extend({
 
   loadPackages() {
     return new Ember.RSVP.Promise((resolve) => {
-      if (this.get('_loadComplete')) {
+      const wasPreviouslyLoadedInTestSuite = window.google.visualization;
+
+      if (this.get('_loadComplete') || wasPreviouslyLoadedInTestSuite) {
 
         /* If Google charts has been loaded, new calls
         to loadPackages can be resolved immediately */
