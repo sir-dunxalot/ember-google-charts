@@ -11,8 +11,17 @@ export default Ember.Service.extend({
   loadPackages() {
     return new Ember.RSVP.Promise((resolve) => {
       if (this.get('_loadComplete')) {
+
+        /* If Google charts has been loaded, new calls
+        to loadPackages can be resolved immediately */
+
         resolve();
       } else if (this.get('_loadInProgress')) {
+
+        /* If this promise is created whilst google charts
+        is being loaded, we can't resolve until it is loaded.
+        Thus, we keep track of the resolve callbacks passed. */
+
         this.get('_callbacksAddedWhileLoading').push(resolve);
       } else {
         this.set('_calledLoad', true);
@@ -22,9 +31,14 @@ export default Ember.Service.extend({
           packages: this.get('googlePackages'),
 
           callback: () => {
+
+            /* Once Google Charts has been loaded, mark the
+            library as loaded and call all resolve callbacks
+            passed to this promise before the Google Charts
+            library had completed loading */
+
             this.set('_loadComplete', true);
 
-            console.log('here');
             resolve();
 
             this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {

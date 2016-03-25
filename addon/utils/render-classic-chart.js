@@ -4,7 +4,7 @@ const { RSVP } = Ember;
 
 export default function renderClassicChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {
-    const { charts, visualization } = window.google;
+    const { visualization } = window.google;
     const type = this.get('type');
     const capitalizedType = Ember.String.capitalize(this.get('type'));
     const chart = new visualization[`${capitalizedType}Chart`](this.get('element'));
@@ -14,8 +14,6 @@ export default function renderClassicChart(data, options) {
 
     /* For charts that aren't immediately ready, listen for the
     ready event */
-
-    console.log('reg', `${capitalizedType}Chart`);
 
     if (type === 'geo') {
       visualization.events.addListener(chart, 'ready', function() {
