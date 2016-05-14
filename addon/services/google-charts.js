@@ -27,7 +27,7 @@ export default Ember.Service.extend({
 
         this.get('_callbacksAddedWhileLoading').push(resolve);
       } else {
-        this.set('_calledLoad', true);
+        this.set('_loadInProgress', true);
 
         google.charts.load('current', {
           language: this.get('language'),
