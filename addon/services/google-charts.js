@@ -9,7 +9,7 @@ export default Ember.Service.extend({
   _loadInProgress: false,
 
   loadPackages() {
-    return new Ember.RSVP.Promise((resolve) => {
+    return new Ember.RSVP.Promise((resolve, reject) => {
       const { google } = window;
       const wasPreviouslyLoadedInTestSuite = google && google.visualization;
 
@@ -25,7 +25,7 @@ export default Ember.Service.extend({
         is being loaded, we can't resolve until it is loaded.
         Thus, we keep track of the resolve callbacks passed. */
 
-        this.get('_callbacksAddedWhileLoading').push(resolve);
+        this.get('_callbacksAddedWhileLoading').push([resolve, reject]);
       } else {
         this.set('_loadInProgress', true);
 
@@ -34,6 +34,21 @@ export default Ember.Service.extend({
           packages: this.get('googlePackages'),
 
           callback: () => {
+
+            /* Check for a corner case where the service has
+            been destroyed before the charts are finished
+            loading. If we set a property on a destroyed
+            service, Ember throws an error. */
+
+            if (this.isDestroying || this.isDestroyed) {
+              reject();
+
+              this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {
+                resolveCallback[1]();
+              });
+
+              return;
+            }
 
             /* Once Google Charts has been loaded, mark the
             library as loaded and call all resolve callbacks
@@ -45,7 +60,7 @@ export default Ember.Service.extend({
             resolve();
 
             this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {
-              resolveCallback();
+              resolveCallback[0]();
             });
           },
 
