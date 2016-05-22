@@ -5,7 +5,7 @@ Ember Google Charts makes it very easy to implement [Google Charts](https://deve
 
 All dependencies are lazy loaded using the [Google JS API Loader](https://developers.google.com/loader/?hl=en), which intelligently caches requests between a user's sessions.
 
-![](http://sir-dunxalot.github.io/ember-google-charts/ember-google-charts.jpg)
+![](http://sir-dunxalot.github.io/ember-google-charts/ember-google-charts-26d23374a6e3e3d7bc0bf51e4540c0ec.jpg)
 
 ## Installation
 
