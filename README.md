@@ -5,7 +5,7 @@ Ember Google Charts makes it very easy to implement [Google Charts](https://deve
 
 All dependencies are lazy loaded using the [Google JS API Loader](https://developers.google.com/loader/?hl=en), which intelligently caches requests between a user's sessions.
 
-![](https://ctoinsights.files.wordpress.com/2011/07/google-chart-tool.png)
+![](http://sir-dunxalot.github.io/ember-google-charts/ember-google-charts.jpg)
 
 ## Installation
 
@@ -25,6 +25,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
   - [packagesDidLoad](#packagesdidload)
 - [Custom Charts](#custom-charts)
 - [Content Security Policy](#content-security-policy)
+- [Development](#development)
 
 ### Charts
 
@@ -253,4 +254,26 @@ contentSecurityPolicy: {
   'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
   'font-src': "'self' *.gstatic.com *.googleapis.com",
 }
+```
+
+### Development
+
+All PRs and issues are welcome.
+
+- `git clone https://github.com/sir-dunxalot/ember-google-charts.git`
+- `cd ember-tooltips`
+- `npm install && bower install`
+- `ember s`
+- `ember test`, `ember try:testall`, or the `/tests` route
+
+Please include tests and documentation updates with any new features.
+
+You do not need to bump the version when you have a PR.
+
+To release an update to the demo app:
+
+```sh
+git checkout master # make sure you're on master branch
+ember github-pages:commit --message "Some commit message" # Builds the app
+git push origin gh-pages:gh-pages # Deploys the app
 ```
