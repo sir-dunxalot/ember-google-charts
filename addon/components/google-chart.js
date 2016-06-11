@@ -69,8 +69,9 @@ export default Ember.Component.extend({
 
   setupDependencies() {
     const type = this.get('type');
+    const options = { id: 'setup-dependencies' };
 
-    Ember.warn('You did not specify a chart type', type);
+    Ember.warn('You did not specify a chart type', type, options);
 
     this.get('googleCharts').loadPackages().then(() => {
       this.sendAction('packagesDidLoad');
