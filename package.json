@@ -56,7 +56,8 @@
     "graph"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.3"
+    "ember-cli-babel": "^5.1.3",
+    "ember-resize": "0.0.14"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
