@@ -1,9 +1,11 @@
 import Ember from 'ember';
+import ResizeAware from 'ember-resize/mixins/resize-aware';
 
-const { $, assert, computed } = Ember;
+const { $, assert, computed, inject: { service } } = Ember;
 const isUsingEmber2 = Ember.VERSION.match(/\b2\.\d+.\d+\b/g);
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ResizeAware, {
+  resizeService: service('resize'),
 
   /* Actions */
 
@@ -25,6 +27,7 @@ export default Ember.Component.extend({
   /* Properties */
 
   chart: null,
+  responsiveResize: true,
   classNameBindings: ['className'],
   classNames: ['google-chart'],
   googleCharts: Ember.inject.service(),
@@ -89,6 +92,12 @@ export default Ember.Component.extend({
 
   renderChart() {
     assert('You have created a chart type without a renderChart() method');
+  },
+
+  debouncedDidResize() {
+    if (this.get('responsiveResize')) {
+      this._rerenderChart();
+    }
   },
 
   willDestroyElement() {
