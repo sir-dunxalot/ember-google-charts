@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { $, assert, computed } = Ember;
+const { $, assert, computed, run: { debounce, }, } = Ember;
 const isUsingEmber2 = Ember.VERSION.match(/\b2\.\d+.\d+\b/g);
 
 export default Ember.Component.extend({
@@ -28,6 +28,7 @@ export default Ember.Component.extend({
   classNameBindings: ['className'],
   classNames: ['google-chart'],
   googleCharts: Ember.inject.service(),
+  responsiveResize: true,
 
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
@@ -59,6 +60,10 @@ export default Ember.Component.extend({
     if (!isUsingEmber2) {
       this.addObserver('data', this, this._rerenderChart);
       this.addObserver('mergedOptions', this, this._rerenderChart);
+    }
+
+    if (this.get('responsiveResize')) {
+      $(window).on(`resize.${this.get('elementId')}`, () => debounce(this, '_handleResize', 200));
     }
   },
 
@@ -102,6 +107,16 @@ export default Ember.Component.extend({
     }
   },
 
+  _handleResize() {
+    this.$().css({ display: 'flex' });
+
+    // Classic charts have an extra parent div
+    let chartContainer = this.$().children().children().css('position') === 'absolute' ? this.$().children() : this.$().children().children();
+    chartContainer.css({ width: '', flex: 'auto' });
+
+    this._rerenderChart();
+  },
+
   _renderChart() {
     const data = this.get('data');
     const mergedOptions = this.get('mergedOptions');
@@ -124,6 +139,8 @@ export default Ember.Component.extend({
       this.removeObserver('data', this, this._rerenderChart);
       this.removeObserver('mergedOptions', this, this._rerenderChart);
     }
+
+    $(window).off(`resize.${this.get('elementId')}`);
   },
 
 });

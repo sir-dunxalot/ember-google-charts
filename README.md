@@ -20,6 +20,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 - [Charts](#charts)
   - [Default options](#default-options)
   - [Locales](#locales)
+  - [Resize](#resize)
 - [Actions](#actions)
   - [chartDidRender](#chartdidrender)
   - [packagesDidLoad](#packagesdidload)
@@ -140,6 +141,14 @@ export GoogleChartsService.extend({
 For more information on locales, see the [Google Charts documentaion](https://developers.google.com/chart/interactive/docs/basic_load_libs#loadwithlocale).
 
 Please note, Google Charts dependencies can only be loaded for a single language. This is a [limitation](https://developers.google.com/chart/interactive/docs/basic_load_libs#basic-library-loading) of the Google API loader.
+
+#### Resize
+
+By default charts will rerender when the window size changes. You can opt out of this by setting `responsiveResize` to false:
+
+```hbs
+{{pie-chart data=data responsiveResize=false}}
+```
 
 ### Actions
 
