@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
-  googlePackages: ['corechart', 'bar', 'line', 'scatter', 'sankey'],
+  googlePackages: ['corechart', 'bar', 'line', 'scatter', 'sankey', 'timeline'],
   language: 'en',
 
   _callbacksAddedWhileLoading: [],
