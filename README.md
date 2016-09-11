@@ -30,7 +30,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 
 ### Charts
 
-There are seven types of chart supported out of the box:
+There are eight types of chart supported out of the box:
 
 - Area Charts
 - Bar Charts
@@ -39,6 +39,7 @@ There are seven types of chart supported out of the box:
 - Pie Charts
 - Scatter Charts
 - Sankey Diagrams
+- Timeline
 
 To add a chart to any route, simply add the relevant component:
 
