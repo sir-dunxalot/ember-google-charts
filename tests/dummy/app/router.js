@@ -14,6 +14,7 @@ Router.map(function() {
     this.route('line');
     this.route('pie');
     this.route('scatter');
+    this.route('sankey');
   });
 
   this.route('promises');
