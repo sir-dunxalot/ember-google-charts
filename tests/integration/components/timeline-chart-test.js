@@ -4,14 +4,13 @@ import testChartRendering from '../../helpers/sync/test-chart-rendering';
 import testChartOptions from '../../helpers/sync/test-chart-options';
 
 const data = [
-  ['Element', 'Density', { role: 'style' }],
-  ['Copper', 8.94, '#b87333'],
-  ['Silver', 10.49, 'silver'],
-  ['Gold', 19.30, 'gold'],
-  ['Platinum', 21.45, 'color: #e5e4e2'],
+  ['Name', 'Start', 'End'],
+  [ 'Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
+  [ 'Adams',      new Date(1797, 2, 4),  new Date(1801, 2, 4) ],
+  [ 'Jefferson',  new Date(1801, 2, 4),  new Date(1809, 2, 4) ],
 ];
 
-moduleForComponent('bar-chart', 'Integration | Component | bar chart', {
+moduleForComponent('timeline-chart', 'Integration | Component | timeline chart', {
   integration: true,
 });
 
@@ -20,9 +19,9 @@ test('Rendering the chart', function(assert) {
   testChartRendering(assert, {
     context: this,
     data,
-    template: hbs`{{bar-chart data=data chartDidRender='chartDidRender'}}`,
-    type: 'bar',
-    usingMaterialCharts: true,
+    template: hbs`{{timeline-chart data=data chartDidRender='chartDidRender'}}`,
+    type: 'timeline',
+    usingMaterialCharts: false,
   });
 
 });
@@ -33,7 +32,7 @@ test('Setting options', function(assert) {
     context: this,
     data,
     options: {},
-    template: hbs`{{bar-chart data=data options=options chartDidRender='chartDidRender'}}`,
+    template: hbs`{{timeline-chart data=data options=options chartDidRender='chartDidRender'}}`,
   });
 
 });
