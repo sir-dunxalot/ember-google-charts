@@ -44,7 +44,7 @@ test('Changing options and rerender', function(assert) {
 
     }, 500);
 
-    this.on('chartDidRender', Ember.K);
+    this.on('chartDidRender', function() {});
 
   });
 
