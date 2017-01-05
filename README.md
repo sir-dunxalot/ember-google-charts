@@ -30,7 +30,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 
 ### Charts
 
-There are six types of chart supported out of the box:
+There are eight types of chart supported out of the box:
 
 - Area Charts
 - Bar Charts
@@ -38,6 +38,8 @@ There are six types of chart supported out of the box:
 - Line Charts
 - Pie Charts
 - Scatter Charts
+- Sankey Diagrams
+- Timeline
 
 To add a chart to any route, simply add the relevant component:
 
@@ -270,7 +272,7 @@ contentSecurityPolicy: {
 All PRs and issues are welcome.
 
 - `git clone https://github.com/sir-dunxalot/ember-google-charts.git`
-- `cd ember-tooltips`
+- `cd ember-google-charts`
 - `npm install && bower install`
 - `ember s`
 - `ember test`, `ember try:testall`, or the `/tests` route

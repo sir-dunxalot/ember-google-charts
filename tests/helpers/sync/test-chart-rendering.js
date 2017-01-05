@@ -8,7 +8,8 @@ export default function testChartRendering(assert, {
   usingMaterialCharts,
 }) {
   const capitalizedType = Ember.String.capitalize(type);
-  const constructorName = usingMaterialCharts ? capitalizedType : `${capitalizedType}Chart`;
+  let useCapitalizedType = usingMaterialCharts || type === 'sankey' || type === 'timeline';
+  const constructorName = useCapitalizedType ? capitalizedType : `${capitalizedType}Chart`;
   const done = assert.async();
 
   assert.expect(6);

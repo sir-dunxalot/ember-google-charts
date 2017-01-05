@@ -132,7 +132,9 @@ export default Ember.Component.extend({
 
     if (chart) {
       window.google.visualization.events.removeAllListeners(chart);
-      chart.clearChart();
+      if (chart.clearChart) {
+        chart.clearChart();
+      }
     }
 
     if (!isUsingEmber2) {

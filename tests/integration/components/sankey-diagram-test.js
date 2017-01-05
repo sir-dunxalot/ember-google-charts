@@ -4,14 +4,16 @@ import testChartRendering from '../../helpers/sync/test-chart-rendering';
 import testChartOptions from '../../helpers/sync/test-chart-options';
 
 const data = [
-  ['Element', 'Density', { role: 'style' }],
-  ['Copper', 8.94, '#b87333'],
-  ['Silver', 10.49, 'silver'],
-  ['Gold', 19.30, 'gold'],
-  ['Platinum', 21.45, 'color: #e5e4e2'],
+  [ 'From', 'To' , 'Weight' ],
+  [ 'A', 'X', 5 ],
+  [ 'A', 'Y', 7 ],
+  [ 'A', 'Z', 6 ],
+  [ 'B', 'X', 2 ],
+  [ 'B', 'Y', 9 ],
+  [ 'B', 'Z', 4 ],
 ];
 
-moduleForComponent('bar-chart', 'Integration | Component | bar chart', {
+moduleForComponent('sankey-diagram', 'Integration | Component | sankey diagram', {
   integration: true,
 });
 
@@ -20,9 +22,9 @@ test('Rendering the chart', function(assert) {
   testChartRendering(assert, {
     context: this,
     data,
-    template: hbs`{{bar-chart data=data chartDidRender='chartDidRender'}}`,
-    type: 'bar',
-    usingMaterialCharts: true,
+    template: hbs`{{sankey-diagram data=data chartDidRender='chartDidRender'}}`,
+    type: 'sankey',
+    usingMaterialCharts: false,
   });
 
 });
@@ -33,7 +35,7 @@ test('Setting options', function(assert) {
     context: this,
     data,
     options: {},
-    template: hbs`{{bar-chart data=data options=options chartDidRender='chartDidRender'}}`,
+    template: hbs`{{sankey-diagram data=data options=options chartDidRender='chartDidRender'}}`,
   });
 
 });
