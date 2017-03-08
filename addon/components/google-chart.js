@@ -1,9 +1,25 @@
 import Ember from 'ember';
 
-const { $, assert, computed, run: { debounce, }, } = Ember;
-const isUsingEmber2 = Ember.VERSION.match(/\b2\.\d+.\d+\b/g);
+const {
+  $,
+  VERSION,
+  Component,
+  assert,
+  computed,
+  inject,
+  run: {
+    debounce,
+  },
+  warn,
+} = Ember;
 
-export default Ember.Component.extend({
+const isUsingEmber2 = VERSION.match(/\b2\.\d+.\d+\b/g);
+
+export default Component.extend({
+
+  /* Services */
+
+  googleCharts: inject.service(),
 
   /* Actions */
 
@@ -27,7 +43,6 @@ export default Ember.Component.extend({
   chart: null,
   classNameBindings: ['className'],
   classNames: ['google-chart'],
-  googleCharts: Ember.inject.service(),
   responsiveResize: true,
 
   className: computed('type', function() {
@@ -49,7 +64,7 @@ export default Ember.Component.extend({
     return $.extend({}, defaultOptions, options);
   }),
 
-  /* Methods */
+  /* Lifecycle hooks */
 
   didInsertElement() {
     this._super(...arguments);
@@ -72,17 +87,12 @@ export default Ember.Component.extend({
     this._rerenderChart();
   },
 
-  setupDependencies() {
-    const type = this.get('type');
-    const options = { id: 'setup-dependencies' };
-
-    Ember.warn('You did not specify a chart type', type, options);
-
-    this.get('googleCharts').loadPackages().then(() => {
-      this.sendAction('packagesDidLoad');
-      this._renderChart();
-    });
+  willDestroyElement() {
+    this._super(...arguments);
+    this._teardownChart();
   },
+
+  /* Methods */
 
   /**
   The method that components that extend this component should
@@ -96,9 +106,16 @@ export default Ember.Component.extend({
     assert('You have created a chart type without a renderChart() method');
   },
 
-  willDestroyElement() {
-    this._super(...arguments);
-    this._teardownChart();
+  setupDependencies() {
+    const type = this.get('type');
+    const options = { id: 'setup-dependencies' };
+
+    warn('You did not specify a chart type', type, options);
+
+    this.get('googleCharts').loadPackages().then(() => {
+      this.sendAction('packagesDidLoad');
+      this._renderChart();
+    });
   },
 
   _rerenderChart() {
@@ -108,11 +125,18 @@ export default Ember.Component.extend({
   },
 
   _handleResize() {
-    this.$().css({ display: 'flex' });
+    this.$().css({
+      display: 'flex',
+    });
 
-    // Classic charts have an extra parent div
+    /* Classic charts have an extra parent div */
+
     let chartContainer = this.$().children().children().css('position') === 'absolute' ? this.$().children() : this.$().children().children();
-    chartContainer.css({ width: '', flex: 'auto' });
+
+    chartContainer.css({
+      width: '',
+      flex: 'auto',
+    });
 
     this._rerenderChart();
   },

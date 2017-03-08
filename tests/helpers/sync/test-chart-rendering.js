@@ -1,5 +1,11 @@
 import Ember from 'ember';
 
+const {
+  String: {
+    capitalize,
+  },
+} = Ember;
+
 export default function testChartRendering(assert, {
   context,
   data,
@@ -7,7 +13,7 @@ export default function testChartRendering(assert, {
   type,
   usingMaterialCharts,
 }) {
-  const capitalizedType = Ember.String.capitalize(type);
+  const capitalizedType = capitalize(type);
   const constructorName = usingMaterialCharts ? capitalizedType : `${capitalizedType}Chart`;
   const done = assert.async();
 
@@ -22,7 +28,7 @@ export default function testChartRendering(assert, {
     const constructor = googlePackage[constructorName];
 
     assert.ok(!!googlePackage,
-      `The required Google package should have loaded`);
+      'The required Google package should have loaded');
 
     assert.ok(!!constructor,
       `The ${constructorName} visualization constructor should be available`);

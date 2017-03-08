@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
+const { RSVP, Service } = Ember;
+
+export default Service.extend({
   googlePackages: ['corechart', 'bar', 'line', 'scatter'],
   language: 'en',
 
@@ -9,7 +11,7 @@ export default Ember.Service.extend({
   _loadInProgress: false,
 
   loadPackages() {
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve, reject) => {
       const { google } = window;
       const wasPreviouslyLoadedInTestSuite = google && google.visualization;
 
