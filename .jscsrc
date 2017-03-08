@@ -1,7 +1,0 @@
-{
-  "preset": "ember-suave",
-  "disallowTrailingComma": false,
-  "requireTrailingComma": {
-    "ignoreSingleLine": true
-  }
-}
