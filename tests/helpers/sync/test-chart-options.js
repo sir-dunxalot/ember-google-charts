@@ -27,14 +27,14 @@ export default function testChartOptions(assert, {
     const { height, title } = options;
 
     run.later(this, function() {
-      const $component = context.$('div:first-child');
+      const $component = context.$('.google-chart');
 
       /* Check title */
 
       if (title) {
 
         assert.ok($component.html().indexOf(title) > -1,
-          'The component should have the title option set on the chart');
+          'The component should have the correct title option set on the chart');
 
       }
 
@@ -43,7 +43,7 @@ export default function testChartOptions(assert, {
       if (height) {
 
         assert.equal($component.height(), height,
-          'The component should have the title option set on the chart');
+          'The component should have the correct height option set on the chart');
 
       }
 

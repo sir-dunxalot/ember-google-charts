@@ -1,8 +1,11 @@
 import Ember from 'ember';
 
-const { run } = Ember;
+const {
+  Controller,
+  run,
+} = Ember;
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   init() {
     run.later(() => {

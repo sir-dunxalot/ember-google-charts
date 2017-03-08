@@ -1,7 +1,10 @@
-// BEGIN-SNIPPET geo-chart-route
+/* BEGIN-SNIPPET geo-chart-route */
+
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const { Route } = Ember;
+
+export default Route.extend({
 
   model() {
     return [
@@ -15,4 +18,5 @@ export default Ember.Route.extend({
   },
 
 });
-// END-SNIPPET
+
+/* END-SNIPPET */

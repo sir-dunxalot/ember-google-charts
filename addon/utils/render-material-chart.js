@@ -1,11 +1,16 @@
 import Ember from 'ember';
 
-const { RSVP } = Ember;
+const {
+  RSVP,
+  String: {
+    capitalize,
+  },
+} = Ember;
 
 export default function renderMaterialChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {
     const { charts, visualization } = window.google;
-    const type = Ember.String.capitalize(this.get('type'));
+    const type = capitalize(this.get('type'));
     const dataTable = visualization.arrayToDataTable(data);
 
     let chart = this.get('chart');
