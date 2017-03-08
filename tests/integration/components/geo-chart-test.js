@@ -30,12 +30,12 @@ test('Rendering the chart', function(assert) {
 
 test('Setting options', function(assert) {
 
+  /* TODO: Test height reliably in-browser here */
+
   testChartOptions(assert, {
     context: this,
     data,
-    options: {
-      height: 134,
-    },
+    options: {},
     template: hbs`{{geo-chart data=data options=options chartDidRender='chartDidRender'}}`,
   });
 
