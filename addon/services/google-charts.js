@@ -6,6 +6,13 @@ export default Service.extend({
   googlePackages: ['corechart', 'bar', 'line', 'scatter'],
   language: 'en',
 
+  defaultOptions: {
+    animation: {
+      duration: 500,
+      startup: false,
+    },
+  },
+
   _callbacksAddedWhileLoading: [],
   _loadComplete: false,
   _loadInProgress: false,

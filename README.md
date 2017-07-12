@@ -103,16 +103,16 @@ It's very easy to add non-default charts (e.g. table charts or gauge charts) - [
 
 #### Default Options
 
-Default options for all charts can be set in the `GoogleChartComponent`. You can also set default options for individual charts, which will override the `GoogleChartComponent` default options.
+Default options for all charts can be set in the `GoogleChartsService`. You can also set default options for individual charts, which will override the `GoogleChartsService` default options.
 
 **Default options are always merged with the options you pass into a component.** Passed in options will only override specific options properties, not the whole options object.
 
 ```js
-/* components/google-chart.js */
+/* services/google-charts.js */
 
-import GoogleChart from 'ember-google-charts/components/google-chart';
+import GoogleChartsService from 'ember-google-charts/services/google-charts';
 
-export default GoogleChart.extend({
+export default GoogleChartsService.extend({
 
   defaultOptions: {
     backgroundColor: '#389fcc',
