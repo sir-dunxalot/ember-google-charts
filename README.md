@@ -101,6 +101,14 @@ Where possible, this addon default to using Material Charts over Google's 'class
 
 It's very easy to add non-default charts (e.g. table charts or gauge charts) - [see the custom charts docs here](#custom-charts)
 
+#### Design Option
+
+Indicate which design you want: `classic` or `material`.
+
+```hbs
+{{bar-chart data=data options=options design="classic"}}
+```
+
 #### Default Options
 
 Default options for all charts can be set in the `GoogleChartComponent`. You can also set default options for individual charts, which will override the `GoogleChartComponent` default options.
@@ -122,14 +130,6 @@ export default GoogleChart.extend({
   },
 
 });
-```
-
-#### Design Option
-
-Indicate which design you want: `classic` or `material`.
-
-```hbs
-{{bar-chart data=data options=options design="classic"}}
 ```
 
 #### Locales
