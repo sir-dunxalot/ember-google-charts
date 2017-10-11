@@ -3,5 +3,5 @@ import RenderChart from '../mixins/render-chart';
 
 export default GoogleChart.extend(RenderChart, {
   type: 'pie',
-  defaultChart: 'classic',
+  defaultDesign: 'classic',
 });

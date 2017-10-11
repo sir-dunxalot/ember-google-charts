@@ -12,9 +12,9 @@ export default Ember.Mixin.create({
   }, 
 
   _setRenderChart() {
-    let {chart, defaultChart} = getProperties(this, ['chart', 'defaultChart'])
+    let {design, defaultDesign} = getProperties(this, ['design', 'defaultDesign'])
       , renderChartList = {'classic': renderClassicChart, 'material': renderMaterialChart}
-      , renderChartSelected = renderChartList[isBlank(chart) ? defaultChart : chart];
+      , renderChartSelected = renderChartList[isBlank(design) ? defaultDesign : design];
 
     set(this, 'renderChart', renderChartSelected);
   },
