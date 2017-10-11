@@ -124,6 +124,14 @@ export default GoogleChart.extend({
 });
 ```
 
+#### Design Option
+
+Indicate which design you want: `classic` or `material`.
+
+```hbs
+{{bar-chart data=data options=options design="classic"}}
+```
+
 #### Locales
 
 You can set the language of the charts you render by specifying the language code in the `google-charts` service:
