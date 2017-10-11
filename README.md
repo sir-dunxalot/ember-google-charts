@@ -75,7 +75,7 @@ export default Ember.Route.extend({
 
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+export default Ember.Controller.extend({
 
   options: {
     title: 'How I spend my days',
