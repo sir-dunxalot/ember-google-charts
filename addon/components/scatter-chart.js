@@ -1,8 +1,7 @@
 import GoogleChart from './google-chart';
-import renderMaterialChart from 'ember-google-charts/utils/render-material-chart';
+import RenderChart from '../mixins/render-chart';
 
-export default GoogleChart.extend({
+export default GoogleChart.extend(RenderChart, {
   type: 'scatter',
-
-  renderChart: renderMaterialChart,
+  defaultChart: 'material',
 });
