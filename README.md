@@ -24,7 +24,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 - [Actions](#actions)
   - [chartDidRender](#chartdidrender)
   - [packagesDidLoad](#packagesdidload)
-  - [onSelect](#onSelect)
+  - [onSelect](#mouse-events)
   - [onMouseOver](#mouse-events)
   - [onMouseOut](#mouse-events)
 - [Custom Charts](#custom-charts)
@@ -223,9 +223,9 @@ export default Ember.Controller.extend({
 
 #### Mouse Events
 
-`onMouseOver` is triggered when mouse enter in some chart area, like a bar or a pie slice, and `onMouseOut` is triggered when mouse goes out.
+There are 3 callbacks for mouse events, fired by chart areas, like a bar or a pie slice: `onSelect`, `onMouseOver` and `onMouseOut`.
 
-These actions receives three params:  
+These actions receives 3 params:
 - `items`: array of items which fired the event  
 - `values`: array of items pure values  
 - `formatedValues`: array of items values formated by google chart  
@@ -238,6 +238,10 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
   actions: {
+    onSelect(items, values, formatedValues) {
+      console.log('Chart Clicked', items, values, formatedValues);
+    },
+    
     onMouseOver(items, values, formatedValues) {
       console.log('Mouse Over', items, values, formatedValues);
     },
@@ -256,6 +260,7 @@ export default Ember.Controller.extend({
 {{bar-chart
   data=data
   options=options
+  onSelect=(action 'onSelect')
   onMouseOver=(action 'onMouseOver')
   onMouseOut=(action 'onMouseOut')
 }}
