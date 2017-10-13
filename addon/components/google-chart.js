@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ChartEvents from '../mixins/events';
 
 const {
   $,
@@ -145,10 +146,12 @@ export default Component.extend({
     const data = this.get('data');
     const mergedOptions = this.get('mergedOptions');
 
-    this.renderChart(data, mergedOptions).then((chart) => {
-      this.set('chart', chart);
-      this.sendAction('chartDidRender', chart);
-    });
+    this.renderChart(data, mergedOptions).then(this._renderChartSuccess.bind(this));
+  },
+
+  _renderChartSuccess(chart) {
+    this.set('chart', chart);
+    this.sendAction('chartDidRender', chart);
   },
 
   _teardownChart() {
@@ -167,4 +170,4 @@ export default Component.extend({
     $(window).off(`resize.${this.get('elementId')}`);
   },
 
-});
+}, ChartEvents);
