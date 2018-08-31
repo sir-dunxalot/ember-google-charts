@@ -1,10 +1,10 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var autoprefixer = require('autoprefixer');
+'use strict';
+
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const autoprefixer = require('autoprefixer');
 
 module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
+  let app = new EmberAddon(defaults, {
     snippetSearchPaths: ['app', 'tests'],
 
     postcssOptions: {
