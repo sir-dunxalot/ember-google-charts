@@ -21,7 +21,8 @@ export default function testChartOptions(assert, {
     options,
   });
 
-  context.set('chartDidRender', (/* chart */) => {
+  context.set('actions', {});
+  context.set('actions.chartDidRender', (/* chart */) => {
     const { title } = options;
 
     run.later(this, function() {
