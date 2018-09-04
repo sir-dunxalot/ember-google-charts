@@ -1,14 +1,17 @@
-import Ember from 'ember';
-
-const { RSVP, Service } = Ember;
+import RSVP from 'rsvp';
+import Service from '@ember/service';
 
 export default Service.extend({
-  googlePackages: ['corechart', 'bar', 'line', 'scatter'],
   language: 'en',
 
-  _callbacksAddedWhileLoading: [],
   _loadComplete: false,
   _loadInProgress: false,
+
+  init() {
+    this._super(...arguments);
+    this.googlePackages = ['corechart', 'bar', 'line', 'scatter'];
+    this._callbacksAddedWhileLoading = [];
+  },
 
   loadPackages() {
     return new RSVP.Promise((resolve, reject) => {

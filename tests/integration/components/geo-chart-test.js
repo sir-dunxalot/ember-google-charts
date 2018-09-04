@@ -1,7 +1,9 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import testChartRendering from '../../helpers/sync/test-chart-rendering';
-import testChartOptions from '../../helpers/sync/test-chart-options';
+import testChartRendering from '../../helpers/test-chart-rendering';
+import testChartOptions from '../../helpers/test-chart-options';
 
 const data = [
   ['Country', 'Popularity'],
@@ -12,31 +14,31 @@ const data = [
   ['Australia', 600],
 ];
 
-moduleForComponent('geo-chart', 'Integration | Component | geo chart', {
-  integration: true,
-});
+module('Integration | Component | geo chart', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Rendering the chart', function(assert) {
+  test('Rendering the chart', function(assert) {
 
-  testChartRendering(assert, {
-    context: this,
-    data,
-    template: hbs`{{geo-chart data=data chartDidRender='chartDidRender'}}`,
-    type: 'geo',
-    usingMaterialCharts: false,
+    testChartRendering(assert, {
+      context: this,
+      data,
+      template: hbs`{{geo-chart data=data chartDidRender='chartDidRender'}}`,
+      type: 'geo',
+      usingMaterialCharts: false,
+    });
+
   });
 
-});
+  test('Setting options', function(assert) {
 
-test('Setting options', function(assert) {
+    /* TODO: Test height reliably in-browser here */
 
-  /* TODO: Test height reliably in-browser here */
+    testChartOptions(assert, {
+      context: this,
+      data,
+      options: {},
+      template: hbs`{{geo-chart data=data options=options chartDidRender='chartDidRender'}}`,
+    });
 
-  testChartOptions(assert, {
-    context: this,
-    data,
-    options: {},
-    template: hbs`{{geo-chart data=data options=options chartDidRender='chartDidRender'}}`,
   });
-
 });

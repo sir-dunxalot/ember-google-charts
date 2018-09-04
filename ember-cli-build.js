@@ -2,10 +2,15 @@
 /* global require, module */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 var autoprefixer = require('autoprefixer');
+var nodeSass = require('node-sass');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     snippetSearchPaths: ['app', 'tests'],
+
+    sassOptions: {
+      implementation: nodeSass,
+    },
 
     postcssOptions: {
       compile: {

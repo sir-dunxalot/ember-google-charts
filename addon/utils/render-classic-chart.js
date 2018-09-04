@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import RSVP from 'rsvp';
 import VisualizationNames from './visualization-names';
-
-const { RSVP } = Ember;
 
 export default function renderClassicChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {

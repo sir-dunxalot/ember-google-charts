@@ -1,8 +1,8 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { later } from '@ember/runloop';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run: { later } } = Ember;
 
 const data = [
   ['Date', 'Sales', 'Expenses'],
@@ -12,31 +12,36 @@ const data = [
   [new Date(2000, 3, 4), 1030, 540],
 ];
 
-moduleForComponent('line-chart', 'Integration | Component | chart language', {
-  integration: true,
-});
+module('Integration | Component | chart language', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Setting language', function(assert) {
-  assert.expect(1);
-
-  const done = assert.async();
-
-  this.setProperties({
-    data,
-    options: {
-      hAxis: { format: 'MMMM' },
-    },
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-  this.on('chartDidRender', () => {
+  test('Setting language', async function(assert) {
+    assert.expect(1);
 
-    later(() => {
-      assert.ok(this.$('div').html().indexOf('avril') > -1, 'The axis should be in french');
-      done();
-    }, 500);
+    const done = assert.async();
+
+    this.setProperties({
+      data,
+      options: {
+        hAxis: { format: 'MMMM' },
+      },
+    });
+
+    this.actions.chartDidRender = () => {
+
+      later(() => {
+        assert.ok(find('div').innerHTML.indexOf('avril') > -1, 'The axis should be in french');
+        done();
+      }, 500);
+
+    };
+
+    await render(hbs`{{line-chart data=data language='fr' options=options chartDidRender='chartDidRender'}}`);
 
   });
-
-  this.render(hbs`{{line-chart data=data language='fr' options=options chartDidRender='chartDidRender'}}`);
-
 });

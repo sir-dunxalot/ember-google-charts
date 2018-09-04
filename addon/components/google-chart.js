@@ -1,17 +1,10 @@
-import Ember from 'ember';
-
-const {
-  $,
-  VERSION,
-  Component,
-  assert,
-  computed,
-  inject,
-  run: {
-    debounce,
-  },
-  warn,
-} = Ember;
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
+import { VERSION } from '@ember/version';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { debounce } from '@ember/runloop';
+import { warn, assert } from '@ember/debug';
 
 const isUsingEmber2 = VERSION.match(/\b2\.\d+.\d+\b/g);
 
@@ -19,7 +12,7 @@ export default Component.extend({
 
   /* Services */
 
-  googleCharts: inject.service(),
+  googleCharts: service(),
 
   /* Actions */
 
@@ -29,20 +22,12 @@ export default Component.extend({
   /* Options */
 
   data: null,
-  defaultOptions: {
-    animation: {
-      duration: 500,
-      startup: false,
-    },
-  },
   options: null,
   type: null,
 
   /* Properties */
 
   chart: null,
-  classNameBindings: ['className'],
-  classNames: ['google-chart'],
   responsiveResize: true,
 
   className: computed('type', function() {
@@ -65,6 +50,18 @@ export default Component.extend({
   }),
 
   /* Lifecycle hooks */
+
+  init() {
+    this._super(...arguments);
+    this.classNameBindings = ['className'];
+    this.classNames = ['google-chart'];
+    this.defaultOptions = {
+      animation: {
+        duration: 500,
+        startup: false,
+      },
+    };
+  },
 
   didInsertElement() {
     this._super(...arguments);

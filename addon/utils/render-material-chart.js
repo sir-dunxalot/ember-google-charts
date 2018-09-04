@@ -1,11 +1,5 @@
-import Ember from 'ember';
-
-const {
-  RSVP,
-  String: {
-    capitalize,
-  },
-} = Ember;
+import RSVP from 'rsvp';
+import { capitalize } from '@ember/string';
 
 export default function renderMaterialChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {

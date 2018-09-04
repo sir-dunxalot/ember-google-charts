@@ -1,7 +1,9 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import testChartRendering from '../../helpers/sync/test-chart-rendering';
-import testChartOptions from '../../helpers/sync/test-chart-options';
+import testChartRendering from '../../helpers/test-chart-rendering';
+import testChartOptions from '../../helpers/test-chart-options';
 
 const data = [
   ['Element', 'Density', { role: 'style' }],
@@ -11,28 +13,28 @@ const data = [
   ['Platinum', 21.45, 'color: #e5e4e2'],
 ];
 
-moduleForComponent('scatter-chart', 'Integration | Component | scatter chart', {
-  integration: true,
-});
+module('Integration | Component | scatter chart', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Rendering the chart', function(assert) {
+  test('Rendering the chart', function(assert) {
 
-  testChartRendering(assert, {
-    context: this,
-    data,
-    template: hbs`{{scatter-chart data=data chartDidRender='chartDidRender'}}`,
-    type: 'scatter',
-    usingMaterialCharts: true,
+    testChartRendering(assert, {
+      context: this,
+      data,
+      template: hbs`{{scatter-chart data=data chartDidRender='chartDidRender'}}`,
+      type: 'scatter',
+      usingMaterialCharts: true,
+    });
+
   });
 
-});
+  test('Setting options', function(assert) {
 
-test('Setting options', function(assert) {
+    testChartOptions(assert, {
+      context: this,
+      data,
+      template: hbs`{{scatter-chart data=data options=options chartDidRender='chartDidRender'}}`,
+    });
 
-  testChartOptions(assert, {
-    context: this,
-    data,
-    template: hbs`{{scatter-chart data=data options=options chartDidRender='chartDidRender'}}`,
   });
-
 });

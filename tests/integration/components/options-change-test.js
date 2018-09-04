@@ -1,8 +1,8 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { later } from '@ember/runloop';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run: { later } } = Ember;
 
 const data = [
   ['Year', 'Sales', 'Expenses'],
@@ -12,42 +12,47 @@ const data = [
   ['2007', 1030, 540],
 ];
 
-moduleForComponent('line-chart', 'Integration | Component | chart options change', {
-  integration: true,
-});
+module('Integration | Component | chart options change', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Changing options and rerender', function(assert) {
-  assert.expect(2);
-
-  const done = assert.async();
-
-  const title = 'Some legit title';
-
-  this.setProperties({
-    data,
-    options: { title },
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-  this.on('chartDidRender', () => {
+  test('Changing options and rerender', async function(assert) {
+    assert.expect(2);
 
-    later(() => {
-      assert.ok(this.$('div').html().indexOf(title) > -1, 'The component should have a title');
+    const done = assert.async();
 
-      this.set('options', {});
+    const title = 'Some legit title';
+
+    this.setProperties({
+      data,
+      options: { title },
+    });
+
+    this.actions.chartDidRender = () => {
 
       later(() => {
-        assert.ok(this.$('div').html().indexOf(title) === -1, 'The component should no longer have a title');
+        assert.ok(find('div').innerHTML.indexOf(title) > -1, 'The component should have a title');
 
-        done();
+        this.set('options', {});
 
-      }, 100);
+        later(() => {
+          assert.ok(find('div').innerHTML.indexOf(title) === -1, 'The component should no longer have a title');
 
-    }, 500);
+          done();
 
-    this.on('chartDidRender', function() {});
+        }, 100);
+
+      }, 500);
+
+      this.actions.chartDidRender = function() {};
+
+    };
+
+    await render(hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`);
 
   });
-
-  this.render(hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`);
-
 });

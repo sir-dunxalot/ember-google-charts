@@ -1,10 +1,4 @@
-import Ember from 'ember';
-
-const {
-  String: {
-    capitalize,
-  },
-} = Ember;
+import { capitalize } from '@ember/string';
 
 export default function testChartRendering(assert, {
   context,
