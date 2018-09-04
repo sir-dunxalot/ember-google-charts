@@ -21,7 +21,7 @@ module('Integration | Component | area chart', function(hooks) {
     testChartRendering(assert, {
       context: this,
       data,
-      template: hbs`{{area-chart data=data chartDidRender='chartDidRender'}}`,
+      template: hbs`{{area-chart data=data chartDidRender=(action 'chartDidRender')}}`,
       type: 'area',
       usingMaterialCharts: false,
     });
@@ -33,7 +33,7 @@ module('Integration | Component | area chart', function(hooks) {
     testChartOptions(assert, {
       context: this,
       data,
-      template: hbs`{{area-chart data=data options=options chartDidRender='chartDidRender'}}`,
+      template: hbs`{{area-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
     });
 
   });

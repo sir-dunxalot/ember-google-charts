@@ -21,7 +21,7 @@ module('Integration | Component | scatter chart', function(hooks) {
     testChartRendering(assert, {
       context: this,
       data,
-      template: hbs`{{scatter-chart data=data chartDidRender='chartDidRender'}}`,
+      template: hbs`{{scatter-chart data=data chartDidRender=(action 'chartDidRender')}}`,
       type: 'scatter',
       usingMaterialCharts: true,
     });
@@ -33,7 +33,7 @@ module('Integration | Component | scatter chart', function(hooks) {
     testChartOptions(assert, {
       context: this,
       data,
-      template: hbs`{{scatter-chart data=data options=options chartDidRender='chartDidRender'}}`,
+      template: hbs`{{scatter-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
     });
 
   });

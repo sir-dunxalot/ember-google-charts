@@ -15,7 +15,7 @@ export default function testChartRendering(assert, {
 
   context.set('data', data);
 
-  context.on('chartDidRender', (chart) => {
+  context.set('chartDidRender', (chart) => {
     const $component = context.$('div:first-child');
     const { google } = window;
     const googlePackage = usingMaterialCharts ? google.charts : google.visualization;

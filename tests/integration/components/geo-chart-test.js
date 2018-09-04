@@ -22,7 +22,7 @@ module('Integration | Component | geo chart', function(hooks) {
     testChartRendering(assert, {
       context: this,
       data,
-      template: hbs`{{geo-chart data=data chartDidRender='chartDidRender'}}`,
+      template: hbs`{{geo-chart data=data chartDidRender=(action 'chartDidRender')}}`,
       type: 'geo',
       usingMaterialCharts: false,
     });
@@ -37,7 +37,7 @@ module('Integration | Component | geo chart', function(hooks) {
       context: this,
       data,
       options: {},
-      template: hbs`{{geo-chart data=data options=options chartDidRender='chartDidRender'}}`,
+      template: hbs`{{geo-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
     });
 
   });

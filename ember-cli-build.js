@@ -5,7 +5,7 @@ var autoprefixer = require('autoprefixer');
 var nodeSass = require('node-sass');
 
 module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
+  let app = new EmberAddon(defaults, {
     snippetSearchPaths: ['app', 'tests'],
 
     sassOptions: {

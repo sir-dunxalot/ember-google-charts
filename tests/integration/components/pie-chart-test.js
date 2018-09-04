@@ -22,7 +22,7 @@ module('Integration | Component | pie chart', function(hooks) {
     testChartRendering(assert, {
       context: this,
       data,
-      template: hbs`{{pie-chart data=data chartDidRender='chartDidRender'}}`,
+      template: hbs`{{pie-chart data=data chartDidRender=(action 'chartDidRender')}}`,
       type: 'pie',
       usingMaterialCharts: false,
     });
@@ -34,7 +34,7 @@ module('Integration | Component | pie chart', function(hooks) {
     testChartOptions(assert, {
       context: this,
       data,
-      template: hbs`{{pie-chart data=data options=options chartDidRender='chartDidRender'}}`,
+      template: hbs`{{pie-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
     });
 
   });

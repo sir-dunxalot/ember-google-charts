@@ -52,7 +52,7 @@ module('Integration | Component | chart options change', function(hooks) {
 
     };
 
-    await render(hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`);
+    await render(hbs`{{line-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`);
 
   });
 });

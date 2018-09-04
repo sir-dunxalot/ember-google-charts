@@ -16,8 +16,8 @@ export default Component.extend({
 
   /* Actions */
 
-  chartDidRender: null,
-  packagesDidLoad: null,
+  chartDidRender() {},
+  packagesDidLoad() {},
 
   /* Options */
 
@@ -110,7 +110,7 @@ export default Component.extend({
     warn('You did not specify a chart type', type, options);
 
     this.get('googleCharts').loadPackages().then(() => {
-      this.sendAction('packagesDidLoad');
+      this.packagesDidLoad();
       this._renderChart();
     });
   },
@@ -144,7 +144,7 @@ export default Component.extend({
 
     this.renderChart(data, mergedOptions).then((chart) => {
       this.set('chart', chart);
-      this.sendAction('chartDidRender', chart);
+      this.chartDidRender(chart);
     });
   },
 

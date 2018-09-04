@@ -21,7 +21,7 @@ module('Integration | Component | line chart', function(hooks) {
     testChartRendering(assert, {
       context: this,
       data,
-      template: hbs`{{line-chart data=data chartDidRender='chartDidRender'}}`,
+      template: hbs`{{line-chart data=data chartDidRender=(action 'chartDidRender')}}`,
       type: 'line',
       usingMaterialCharts: true,
     });
@@ -33,7 +33,7 @@ module('Integration | Component | line chart', function(hooks) {
     testChartOptions(assert, {
       context: this,
       data,
-      template: hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`,
+      template: hbs`{{line-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
     });
 
   });
