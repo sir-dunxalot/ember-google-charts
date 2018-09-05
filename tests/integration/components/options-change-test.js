@@ -14,11 +14,6 @@ const data = [
 module('Integration | Component | chart options change', function(hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    this.set('actions', {});
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   test('Changing options and rerender', async function(assert) {
     assert.expect(2);
 
