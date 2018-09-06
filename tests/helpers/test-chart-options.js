@@ -1,12 +1,12 @@
-import { run } from '@ember/runloop';
+import { render, waitFor } from '@ember/test-helpers';
 
-export default function testChartOptions(assert, {
+export default async function testChartOptions(assert, {
   context,
   data,
   options,
   template,
 }) {
-  const done = assert.async();
+  assert.expect(1);
 
   if (!options) {
     options = {
@@ -14,32 +14,23 @@ export default function testChartOptions(assert, {
     };
   }
 
-  assert.expect(Object.keys(options).length);
-
   context.setProperties({
     data,
     options,
   });
 
-  context.set('actions', {});
-  context.set('actions.chartDidRender', (/* chart */) => {
-    const { title } = options;
+  await render(template);
 
-    run.later(this, function() {
-      const $component = context.$('.google-chart');
+  await waitFor('.google-chart svg');
 
-      /* Check title */
+  const { title } = options;
+  const $component = context.$('.google-chart');
 
-      if (title) {
-
-        assert.ok($component.text().indexOf(title) > -1,
-          'The component should have the correct title option set on the chart');
-
-      }
-
-      done();
-    }, 500);
-  });
-
-  context.render(template);
+  if (title) {
+    assert.ok($component.text().indexOf(title) > -1,
+      'The component should have the correct title option set on the chart');
+  } else {
+    assert.ok($component.text().indexOf(title) === -1,
+      'The component should not have a title');
+  }
 }

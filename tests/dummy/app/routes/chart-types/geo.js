@@ -7,7 +7,7 @@ export default Route.extend({
   model() {
     return [
       ['Country', 'Popularity'],
-      ['South America', 600],
+      ['South Africa', 600],
       ['Canada', 500],
       ['France', 600],
       ['Russia', 700],

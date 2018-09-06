@@ -29,12 +29,12 @@ module('Integration | Component | pie chart', function(hooks) {
 
   });
 
-  test('Setting options', function(assert) {
+  test('Setting options', async function(assert) {
 
-    testChartOptions(assert, {
+    await testChartOptions(assert, {
       context: this,
       data,
-      template: hbs`{{pie-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
+      template: hbs`{{pie-chart data=data options=options}}`,
     });
 
   });

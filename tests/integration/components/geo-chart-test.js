@@ -29,15 +29,15 @@ module('Integration | Component | geo chart', function(hooks) {
 
   });
 
-  test('Setting options', function(assert) {
+  test('Setting options', async function(assert) {
 
-    /* TODO: Test height reliably in-browser here */
-
-    testChartOptions(assert, {
+    await testChartOptions(assert, {
       context: this,
       data,
-      options: {},
-      template: hbs`{{geo-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
+      options: {
+        title: null,
+      },
+      template: hbs`{{geo-chart data=data options=options}}`,
     });
 
   });

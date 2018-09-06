@@ -28,12 +28,12 @@ module('Integration | Component | scatter chart', function(hooks) {
 
   });
 
-  test('Setting options', function(assert) {
+  test('Setting options', async function(assert) {
 
-    testChartOptions(assert, {
+    await testChartOptions(assert, {
       context: this,
       data,
-      template: hbs`{{scatter-chart data=data options=options chartDidRender=(action 'chartDidRender')}}`,
+      template: hbs`{{scatter-chart data=data options=options}}`,
     });
 
   });
