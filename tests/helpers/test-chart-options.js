@@ -1,3 +1,4 @@
+import { later } from '@ember/runloop';
 import { render, waitFor } from '@ember/test-helpers';
 
 export default async function testChartOptions(assert, {
@@ -22,6 +23,10 @@ export default async function testChartOptions(assert, {
   await render(template);
 
   await waitFor('.google-chart svg');
+
+  await new Promise((resolve) => {
+    later(resolve, 300); // Sometimes tests fail without a little render time padding
+  });
 
   const { title } = options;
   const $component = context.$('.google-chart');
