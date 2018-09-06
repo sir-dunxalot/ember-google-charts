@@ -1,6 +1,4 @@
-import Ember from 'ember';
-
-const { run } = Ember;
+import { run } from '@ember/runloop';
 
 export default function testChartOptions(assert, {
   context,
@@ -23,7 +21,8 @@ export default function testChartOptions(assert, {
     options,
   });
 
-  context.on('chartDidRender', (/* chart */) => {
+  context.set('actions', {});
+  context.set('actions.chartDidRender', (/* chart */) => {
     const { title } = options;
 
     run.later(this, function() {
