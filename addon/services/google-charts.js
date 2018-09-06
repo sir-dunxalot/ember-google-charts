@@ -9,7 +9,7 @@ export default Service.extend({
 
   init() {
     this._super(...arguments);
-    this.googlePackages = ['corechart', 'bar', 'line', 'scatter'];
+    this.googlePackages = this.googlePackages || ['corechart', 'bar', 'line', 'scatter'];
     this._callbacksAddedWhileLoading = [];
   },
 
@@ -48,8 +48,8 @@ export default Service.extend({
             if (this.isDestroying || this.isDestroyed) {
               reject();
 
-              this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {
-                resolveCallback[1]();
+              this.get('_callbacksAddedWhileLoading').forEach((callbacks) => {
+                callbacks[1]();
               });
 
               return;
@@ -64,8 +64,8 @@ export default Service.extend({
 
             resolve();
 
-            this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {
-              resolveCallback[0]();
+            this.get('_callbacksAddedWhileLoading').forEach(([ resolveCallback ]) => {
+              resolveCallback();
             });
           },
 

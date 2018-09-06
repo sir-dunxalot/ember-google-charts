@@ -55,7 +55,7 @@ export default Component.extend({
     this._super(...arguments);
     this.classNameBindings = ['className'];
     this.classNames = ['google-chart'];
-    this.defaultOptions = {
+    this.defaultOptions = this.defaultOptions || {
       animation: {
         duration: 500,
         startup: false,

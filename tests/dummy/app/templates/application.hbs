@@ -1,84 +1,62 @@
-{{#paper-sidenav-container}}
+<div class="page-layout">
 
-  {{#paper-sidenav
-    class='md-sidenav-left md-whiteframe-z2'
-    lockedOpen=true
-  }}
+  <header class="page-header">
+    <nav>
+      <ul>
 
-    {{#paper-toolbar}}
-      {{#paper-toolbar-tools}}
+        <li class="page-header-logo">
+          {{#link-to 'index'}}
+            <img src="ember.png" class="logo" height="30"/>
+            <h2 class="text">&nbsp;Google Charts</h2>
+          {{/link-to}}
+        </li>
 
-        <div class="logo-wrapper">
-          <h2 id="title">
-            {{#link-to 'index'}}
-              <img src="ember.png" class="logo" height="30"/>
-              <span class="text">&nbsp;Google Charts</span>
-            {{/link-to}}
-          </h2>
-        </div>
+        <hr>
 
-      {{/paper-toolbar-tools}}
-    {{/paper-toolbar}}
+        <li>
+          {{#link-to 'chart-types.area'}}Area charts{{/link-to}}
+        </li>
 
-    {{#paper-content}}
-      {{#paper-list}}
+        <li>
+          {{#link-to 'chart-types.bar'}}Bar charts{{/link-to}}
+        </li>
 
-        {{#paper-item onClick=(action 'transitionTo' 'chart-types.area')}}
-          Area charts
-        {{/paper-item}}
+        <li>
+          {{#link-to 'chart-types.geo'}}Geo charts{{/link-to}}
+        </li>
 
-        {{#paper-item onClick=(action 'transitionTo' 'chart-types.bar')}}
-          Bar charts
-        {{/paper-item}}
+        <li>
+          {{#link-to 'chart-types.line'}}Line charts{{/link-to}}
+        </li>
 
-        {{#paper-item onClick=(action 'transitionTo' 'chart-types.geo')}}
-          Geo charts
-        {{/paper-item}}
+        <li>
+          {{#link-to 'chart-types.pie'}}Pie charts{{/link-to}}
+        </li>
 
-        {{#paper-item onClick=(action 'transitionTo' 'chart-types.line')}}
-          Line charts
-        {{/paper-item}}
+        <li>
+          {{#link-to 'chart-types.scatter'}}Scatter charts{{/link-to}}
+        </li>
 
-        {{#paper-item onClick=(action 'transitionTo' 'chart-types.pie')}}
-          Pie charts
-        {{/paper-item}}
+        <li>
+          {{#link-to 'promises'}}Promises{{/link-to}}
+        </li>
 
-        {{#paper-item onClick=(action 'transitionTo' 'chart-types.scatter')}}
-          Scatter charts
-        {{/paper-item}}
+        <hr>
 
-        {{#paper-item onClick=(action 'transitionTo' 'promises')}}
-          Promises
-        {{/paper-item}}
+        <li>
+          <a href="https://github.com/sir-dunxalot/ember-google-charts">View source on Github</a>
+        </li>
 
-        {{paper-divider}}
+        <li>
+          <a href="https://developers.google.com/chart/interactive/docs/">Google Charts docs</a>
+        </li>
 
-        {{#paper-item onClick=(action 'linkTo' 'https://github.com/sir-dunxalot/ember-google-charts')}}
-          {{paper-icon 'code'}}
-          <p>View Source on Github</p>
-        {{/paper-item}}
+      </ul>
+    </nav>
+  </header>
 
-        {{#paper-item onClick=(action 'linkTo' 'https://developers.google.com/chart/interactive/docs/')}}
-          {{paper-icon 'info-outline'}}
-          <p>Google Charts Docs</p>
-        {{/paper-item}}
+  <div class="page-content">
+    {{outlet}}
+  </div>
 
-      {{/paper-list}}
-    {{/paper-content}}
-
-  {{/paper-sidenav}}
-
-  {{#paper-card-content class='flex'}}
-
-  {{#paper-toolbar}}
-    {{#paper-toolbar-tools}}
-    {{/paper-toolbar-tools}}
-  {{/paper-toolbar}}
-
-    <div class="page-content">
-      {{outlet}}
-    </div>
-  {{/paper-card-content}}
-
-
-{{/paper-sidenav-container}}
+</div>

@@ -1,0 +1,73 @@
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.page-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page-header {
+  $_color: #fff;
+
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 2rem;
+  background-color: #3f51b5;
+  color: $_color;
+
+  a {
+    color: $_color;
+    text-decoration: none;
+
+    box-sizing: border-box;
+    display: block;
+    padding: 0.6rem 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  hr {
+    opacity: 0.5;
+    margin: 1rem 0;
+  }
+}
+
+.page-header-logo {
+  margin-bottom: 2rem;
+
+  a {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    justify-items: center;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0;
+  }
+
+  img {
+    margin-right: 0.4rem;
+  }
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.page-content {
+  flex-basis: 100%;
+  overflow-y: scroll;
+  padding: 4rem;
+  box-sizing: border-box;
+}
