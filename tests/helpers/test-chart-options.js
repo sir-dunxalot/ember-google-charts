@@ -38,7 +38,7 @@ export default function testChartOptions(assert, {
       }
 
       done();
-    }, 200);
+    }, 500);
   });
 
   context.render(template);
