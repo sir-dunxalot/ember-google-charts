@@ -1,13 +1,12 @@
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const { Router } = Ember;
-
-const RouterInstance = Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
+  rootURL: config.rootURL
 });
 
-RouterInstance.map(function() {
+Router.map(function() {
 
   this.route('chart-types', function() {
     this.route('area');
@@ -22,4 +21,4 @@ RouterInstance.map(function() {
 
 });
 
-export default RouterInstance;
+export default Router;

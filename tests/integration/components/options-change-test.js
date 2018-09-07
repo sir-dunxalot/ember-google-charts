@@ -1,8 +1,7 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, find, settled, waitFor } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run: { later } } = Ember;
 
 const data = [
   ['Year', 'Sales', 'Expenses'],
@@ -12,42 +11,38 @@ const data = [
   ['2007', 1030, 540],
 ];
 
-moduleForComponent('line-chart', 'Integration | Component | chart options change', {
-  integration: true,
-});
+module('Integration | Component | chart options change', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Changing options and rerender', function(assert) {
-  assert.expect(2);
+  test('Changing options and rerender', async function(assert) {
+    assert.expect(2);
 
-  const done = assert.async();
+    const title = 'Some legit title';
 
-  const title = 'Some legit title';
+    this.setProperties({
+      data,
+      options: { title },
+    });
 
-  this.setProperties({
-    data,
-    options: { title },
+    await render(hbs`{{line-chart data=data options=options}}`);
+
+    /* Check that the title is correct */
+
+    await waitFor('.google-chart svg');
+
+    assert.ok(find('div').innerHTML.indexOf(title) > -1,
+      'The component should have a title');
+
+    const newTitle = 'A new title';
+
+    this.set('options', {
+      title: newTitle,
+    });
+
+    await settled();
+
+    assert.ok(find('div').innerHTML.indexOf(newTitle) > -1,
+      'The component should have a title');
+
   });
-
-  this.on('chartDidRender', () => {
-
-    later(() => {
-      assert.ok(this.$('div').html().indexOf(title) > -1, 'The component should have a title');
-
-      this.set('options', {});
-
-      later(() => {
-        assert.ok(this.$('div').html().indexOf(title) === -1, 'The component should no longer have a title');
-
-        done();
-
-      }, 100);
-
-    }, 500);
-
-    this.on('chartDidRender', function() {});
-
-  });
-
-  this.render(hbs`{{line-chart data=data options=options chartDidRender='chartDidRender'}}`);
-
 });

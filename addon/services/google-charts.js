@@ -1,9 +1,7 @@
-import Ember from 'ember';
-
-const { RSVP, Service } = Ember;
+import RSVP from 'rsvp';
+import Service from '@ember/service';
 
 export default Service.extend({
-  googlePackages: ['corechart', 'bar', 'line', 'scatter'],
   language: 'en',
 
   init() {
@@ -28,6 +26,7 @@ export default Service.extend({
         if (ex) {
           reject(ex);
         }
+        
         resolve();
       });
     });
