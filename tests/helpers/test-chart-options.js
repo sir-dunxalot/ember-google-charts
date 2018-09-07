@@ -25,7 +25,7 @@ export default async function testChartOptions(assert, {
   await waitFor('.google-chart svg');
 
   await new Promise((resolve) => {
-    later(resolve, 300); // Sometimes tests fail without a little render time padding
+    later(resolve, 1000); // Sometimes tests fail without a little render time padding
   });
 
   const { title } = options;
