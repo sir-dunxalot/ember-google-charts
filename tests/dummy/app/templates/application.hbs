@@ -1,5 +1,62 @@
-{{!-- The following component displays Ember's default welcome message. --}}
-{{welcome-page}}
-{{!-- Feel free to remove this! --}}
+<div class="page-layout">
 
-{{outlet}}
+  <header class="page-header">
+    <nav>
+      <ul>
+
+        <li class="page-header-logo">
+          {{#link-to 'index'}}
+            <img src="/ember.png" class="logo" height="30"/>
+            <h2 class="text">&nbsp;Google Charts</h2>
+          {{/link-to}}
+        </li>
+
+        <hr>
+
+        <li>
+          {{#link-to 'chart-types.area'}}Area charts{{/link-to}}
+        </li>
+
+        <li>
+          {{#link-to 'chart-types.bar'}}Bar charts{{/link-to}}
+        </li>
+
+        <li>
+          {{#link-to 'chart-types.geo'}}Geo charts{{/link-to}}
+        </li>
+
+        <li>
+          {{#link-to 'chart-types.line'}}Line charts{{/link-to}}
+        </li>
+
+        <li>
+          {{#link-to 'chart-types.pie'}}Pie charts{{/link-to}}
+        </li>
+
+        <li>
+          {{#link-to 'chart-types.scatter'}}Scatter charts{{/link-to}}
+        </li>
+
+        <li>
+          {{#link-to 'promises'}}Promises{{/link-to}}
+        </li>
+
+        <hr>
+
+        <li>
+          <a href="https://github.com/sir-dunxalot/ember-google-charts">View source on Github</a>
+        </li>
+
+        <li>
+          <a href="https://developers.google.com/chart/interactive/docs/">Google Charts docs</a>
+        </li>
+
+      </ul>
+    </nav>
+  </header>
+
+  <div class="page-content">
+    {{outlet}}
+  </div>
+
+</div>

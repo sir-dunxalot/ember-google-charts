@@ -52,9 +52,9 @@ For example:
 ```js
 /* stats/route.js */
 
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
 
   model() {
     return [
@@ -73,9 +73,9 @@ export default Ember.Route.extend({
 ```js
 /* stats/controller.js */
 
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   options: {
     title: 'How I spend my days',
@@ -171,9 +171,9 @@ This action receives the `chart` object of the rendered chart.
 ```js
 /* stats/controller.js */
 
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   actions: {
     selectCountry(chart) {
@@ -190,7 +190,7 @@ export default Ember.Controller.extend({
 {{geo-chart
   data=data
   options=options
-  chartDidRender='selectCountry'
+  chartDidRender=(action 'selectCountry')
 }}
 ```
 
@@ -203,9 +203,9 @@ This action receives no params.
 ```js
 /* stats/controller.js */
 
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   actions: {
     checkGoogleExists() {
@@ -222,7 +222,7 @@ export default Ember.Controller.extend({
 {{line-chart
   data=data
   options=options
-  packagesDidLoad='checkGoogleExists'
+  packagesDidLoad=(action 'checkGoogleExists')
 }}
 ```
 

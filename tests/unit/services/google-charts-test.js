@@ -1,10 +1,12 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('service:google-charts', 'Unit | Service | google charts', {
-});
+module('Unit | Service | google charts', function(hooks) {
+  setupTest(hooks);
 
-test('it exists', function(assert) {
-  const service = this.subject();
+  test('it exists', function(assert) {
+    const service = this.owner.lookup('service:google-charts');
 
-  assert.ok(service);
+    assert.ok(service);
+  });
 });

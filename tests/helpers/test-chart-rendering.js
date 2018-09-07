@@ -1,10 +1,4 @@
-import Ember from 'ember';
-
-const {
-  String: {
-    capitalize,
-  },
-} = Ember;
+import { capitalize } from '@ember/string';
 
 export default function testChartRendering(assert, {
   context,
@@ -17,15 +11,18 @@ export default function testChartRendering(assert, {
   const constructorName = usingMaterialCharts ? capitalizedType : `${capitalizedType}Chart`;
   const done = assert.async();
 
-  assert.expect(6);
+  assert.expect(7);
 
   context.set('data', data);
-
-  context.on('chartDidRender', (chart) => {
+  context.set('actions', {});
+  context.set('actions.chartDidRender', (chart) => {
     const $component = context.$('div:first-child');
     const { google } = window;
     const googlePackage = usingMaterialCharts ? google.charts : google.visualization;
     const constructor = googlePackage[constructorName];
+
+    assert.ok(!!chart,
+      'chartDidRender should fire and pass the chart param');
 
     assert.ok(!!googlePackage,
       'The required Google package should have loaded');

@@ -1,9 +1,9 @@
-@import 'ember-paper';
-
 @import 'core/variables';
 @import 'core/mixins';
 
+@import 'components/buttons';
 @import 'components/code';
+@import 'components/layout';
 
 .logo, .logo-wrapper .text {
   display: inline-block;
@@ -11,8 +11,4 @@
 
 .logo {
   margin-top: -0.7rem;
-}
-
-.page-content {
-  padding: 2rem 4rem;
 }

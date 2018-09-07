@@ -1,7 +1,9 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import testChartRendering from '../../helpers/sync/test-chart-rendering';
-import testChartOptions from '../../helpers/sync/test-chart-options';
+import testChartRendering from '../../helpers/test-chart-rendering';
+import testChartOptions from '../../helpers/test-chart-options';
 
 const data = [
   ['Element', 'Density', { role: 'style' }],
@@ -11,28 +13,28 @@ const data = [
   ['Platinum', 21.45, 'color: #e5e4e2'],
 ];
 
-moduleForComponent('bar-chart', 'Integration | Component | bar chart', {
-  integration: true,
-});
+module('Integration | Component | bar chart', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Rendering the chart', function(assert) {
+  test('Rendering the chart', function(assert) {
 
-  testChartRendering(assert, {
-    context: this,
-    data,
-    template: hbs`{{bar-chart data=data chartDidRender='chartDidRender'}}`,
-    type: 'bar',
-    usingMaterialCharts: true,
+    testChartRendering(assert, {
+      context: this,
+      data,
+      template: hbs`{{bar-chart data=data chartDidRender=(action 'chartDidRender')}}`,
+      type: 'bar',
+      usingMaterialCharts: true,
+    });
+
   });
 
-});
+  test('Setting options', async function(assert) {
 
-test('Setting options', function(assert) {
+    await testChartOptions(assert, {
+      context: this,
+      data,
+      template: hbs`{{bar-chart data=data options=options}}`,
+    });
 
-  testChartOptions(assert, {
-    context: this,
-    data,
-    template: hbs`{{bar-chart data=data options=options chartDidRender='chartDidRender'}}`,
   });
-
 });
