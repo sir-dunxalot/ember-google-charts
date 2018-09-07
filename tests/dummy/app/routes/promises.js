@@ -1,10 +1,6 @@
-import Ember from 'ember';
-
-const {
-  RSVP,
-  Route,
-  run,
-} = Ember;
+import RSVP from 'rsvp';
+import Route from '@ember/routing/route';
+import { run } from '@ember/runloop';
 
 export default Route.extend({
 

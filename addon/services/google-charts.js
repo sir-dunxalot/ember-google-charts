@@ -1,11 +1,9 @@
-import Ember from 'ember';
-
-const { RSVP, Service } = Ember;
+import RSVP from 'rsvp';
+import Service from '@ember/service';
 
 export default Service.extend({
-  googlePackages: ['corechart', 'bar', 'line', 'scatter'],
   language: 'en',
-
+  
   defaultOptions: {
     animation: {
       duration: 500,
@@ -16,6 +14,12 @@ export default Service.extend({
   _callbacksAddedWhileLoading: [],
   _loadComplete: false,
   _loadInProgress: false,
+
+  init() {
+    this._super(...arguments);
+    this.googlePackages = this.googlePackages || ['corechart', 'bar', 'line', 'scatter'];
+    this._callbacksAddedWhileLoading = [];
+  },
 
   loadPackages() {
     return new RSVP.Promise((resolve, reject) => {
@@ -52,8 +56,8 @@ export default Service.extend({
             if (this.isDestroying || this.isDestroyed) {
               reject();
 
-              this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {
-                resolveCallback[1]();
+              this.get('_callbacksAddedWhileLoading').forEach((callbacks) => {
+                callbacks[1]();
               });
 
               return;
@@ -68,8 +72,8 @@ export default Service.extend({
 
             resolve();
 
-            this.get('_callbacksAddedWhileLoading').forEach((resolveCallback) => {
-              resolveCallback[0]();
+            this.get('_callbacksAddedWhileLoading').forEach(([ resolveCallback ]) => {
+              resolveCallback();
             });
           },
 
