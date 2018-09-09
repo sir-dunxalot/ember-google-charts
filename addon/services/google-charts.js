@@ -6,27 +6,22 @@ export default Service.extend({
 
   init() {
     this._super(...arguments);
-    this._startLoad();
-  },
 
-  _startLoad() {
-    const { google } = window;
-
-    google.charts.load('current', {
-      language: this.get('language'),
-      packages: this.get('googlePackages'),
-    });
+    this.googlePackages = this.googlePackages || ['corechart', 'bar', 'line', 'scatter'];
   },
 
   loadPackages() {
     const { google } = window;
 
     return new RSVP.Promise((resolve, reject) => {
+      google.charts.load('current', {
+        language: this.get('language'),
+        packages: this.get('googlePackages'),
+      });
+
       google.charts.setOnLoadCallback((ex) => {
-        if (ex) {
-          reject(ex);
-        }
-        
+        if (ex) { reject(ex); }
+
         resolve();
       });
     });

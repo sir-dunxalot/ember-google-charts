@@ -116,11 +116,7 @@ export default Component.extend({
     this.get('_renderChart').perform();
   }),
 
-  _rerenderChart() {
-    if (this.get('chart') && this.get('data')) {
-      this.get('_renderChart').perform();
-    }
-  },
+  /* Private methods */
 
   _handleResize() {
     this.$().css({
@@ -137,6 +133,12 @@ export default Component.extend({
     });
 
     this._rerenderChart();
+  },
+
+  _rerenderChart() {
+    if (this.get('chart') && this.get('data')) {
+      this.get('_renderChart').perform();
+    }
   },
 
   _renderChart: task(function* () {
