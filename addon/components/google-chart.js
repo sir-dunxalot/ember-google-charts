@@ -1,3 +1,4 @@
+import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 import $ from 'jquery';
 import { VERSION } from '@ember/version';
@@ -65,7 +66,7 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    this.setupDependencies();
+    this.get('setupDependencies').perform();
 
     /* If the Ember version is less than 2.0.0... */
 
@@ -103,23 +104,19 @@ export default Component.extend({
     assert('You have created a chart type without a renderChart() method');
   },
 
-  setupDependencies() {
+  setupDependencies: task(function* () {
     const type = this.get('type');
     const options = { id: 'setup-dependencies' };
 
     warn('You did not specify a chart type', type, options);
 
-    this.get('googleCharts').loadPackages().then(() => {
-      this.packagesDidLoad();
-      this._renderChart();
-    });
-  },
+    yield this.get('googleCharts').loadPackages();
 
-  _rerenderChart() {
-    if (this.get('chart') && this.get('data')) {
-      this._renderChart();
-    }
-  },
+    this.packagesDidLoad();
+    this.get('_renderChart').perform();
+  }),
+
+  /* Private methods */
 
   _handleResize() {
     this.$().css({
@@ -138,15 +135,20 @@ export default Component.extend({
     this._rerenderChart();
   },
 
-  _renderChart() {
+  _rerenderChart() {
+    if (this.get('chart') && this.get('data')) {
+      this.get('_renderChart').perform();
+    }
+  },
+
+  _renderChart: task(function* () {
     const data = this.get('data');
     const mergedOptions = this.get('mergedOptions');
+    const chart = yield this.renderChart(data, mergedOptions);
 
-    this.renderChart(data, mergedOptions).then((chart) => {
-      this.set('chart', chart);
-      this.chartDidRender(chart);
-    });
-  },
+    this.set('chart', chart);
+    this.chartDidRender(chart);
+  }),
 
   _teardownChart() {
     const chart = this.get('chart');
