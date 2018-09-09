@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find, settled, waitFor } from '@ember/test-helpers';
+import { settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { renderChart } from 'ember-google-charts/test-support';
 
 const data = [
   ['Year', 'Sales', 'Expenses'],
@@ -24,13 +25,9 @@ module('Integration | Component | chart options change', function(hooks) {
       options: { title },
     });
 
-    await render(hbs`{{line-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`{{line-chart data=data options=options}}`);
 
-    /* Check that the title is correct */
-
-    await waitFor('.google-chart svg');
-
-    assert.ok(find('div').innerHTML.indexOf(title) > -1,
+    assert.ok(chart.textContent.indexOf(title) > -1,
       'The component should have a title');
 
     const newTitle = 'A new title';
@@ -41,8 +38,8 @@ module('Integration | Component | chart options change', function(hooks) {
 
     await settled();
 
-    assert.ok(find('div').innerHTML.indexOf(newTitle) > -1,
-      'The component should have a title');
+    assert.ok(chart.textContent.indexOf(newTitle) > -1,
+      'The component should have the new title');
 
   });
 });

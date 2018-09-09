@@ -1,8 +1,10 @@
-import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled, waitFor } from '@ember/test-helpers';
+import { settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { renderChart } from 'ember-google-charts/test-support';
+
+import delay from '../helpers/delay';
 
 module('Integration | Pass in Google DataTable', function(hooks) {
   setupRenderingTest(hooks);
@@ -27,17 +29,9 @@ module('Integration | Pass in Google DataTable', function(hooks) {
 
     this.set('data', dataArray);
 
-    await render(hbs`{{bar-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`{{bar-chart data=data options=options}}`);
 
-    await waitFor('.google-chart svg');
-
-    await new Promise((resolve) => {
-      later(resolve, 1000);
-    });
-
-    const $component = this.$('.google-chart');
-
-    assert.ok($component.text().indexOf('2004') > -1,
+    assert.ok(chart.textContent.indexOf('2004') > -1,
       'The chart should be rendered with the data from the array');
 
     /* Render a chart with data passed as a Google DataTable */
@@ -47,17 +41,14 @@ module('Integration | Pass in Google DataTable', function(hooks) {
     this.set('data', dataTable);
 
     await settled();
+    await delay();
 
-    await new Promise((resolve) => {
-      later(resolve, 1000);
-    });
-
-    assert.ok($component.text().indexOf('2008') > -1,
+    assert.ok(chart.textContent.indexOf('2008') > -1,
       'The chart should be rendered with the data from the DataTable');
 
   });
 
-    test('Passing in data to a Classic Chart', async function(assert) {
+  test('Passing in data to a Classic Chart', async function(assert) {
 
     assert.expect(2);
 
@@ -65,17 +56,9 @@ module('Integration | Pass in Google DataTable', function(hooks) {
 
     this.set('data', dataArray);
 
-    await render(hbs`{{pie-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`{{pie-chart data=data options=options}}`);
 
-    await waitFor('.google-chart svg');
-
-    await new Promise((resolve) => {
-      later(resolve, 1000);
-    });
-
-    const $component = this.$('.google-chart');
-
-    assert.ok($component.text().indexOf('2004') > -1,
+    assert.ok(chart.textContent.indexOf('2004') > -1,
       'The chart should be rendered with the data from the array');
 
     /* Render a chart with data passed as a Google DataTable */
@@ -85,12 +68,9 @@ module('Integration | Pass in Google DataTable', function(hooks) {
     this.set('data', dataTable);
 
     await settled();
+    await delay();
 
-    await new Promise((resolve) => {
-      later(resolve, 1000);
-    });
-
-    assert.ok($component.text().indexOf('2008') > -1,
+    assert.ok(chart.textContent.indexOf('2008') > -1,
       'The chart should be rendered with the data from the DataTable');
 
   });

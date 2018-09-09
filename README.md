@@ -13,8 +13,6 @@ All dependencies are lazy loaded using the [Google JS API Loader](https://develo
 ember install ember-google-charts
 ```
 
-## Usage
-
 See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 
 - [Charts](#charts)
@@ -26,7 +24,10 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
   - [packagesDidLoad](#packagesdidload)
 - [Custom Charts](#custom-charts)
 - [Content Security Policy](#content-security-policy)
+- [Testing](#testing)
 - [Development](#development)
+
+## Usage
 
 ### Charts
 
@@ -293,7 +294,56 @@ contentSecurityPolicy: {
 }
 ```
 
-### Development
+## Testing
+
+This addon gives you a `renderChart()` test helper you can use in your app's test suite.
+
+The `renderChart()` is an async helper that returns an `Element`.
+
+It's designed for use in integration tests, for example:
+
+```js
+/* tests/integration/some-test */
+
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { renderChart } from 'ember-google-charts/test-support';
+
+module('Integration | Component | pretty color', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('Some test', async function() {
+    this.set('data', [
+      ['Year', 'Sales', 'Expenses'],
+      ['2004', 1000, 400],
+      ['2005', 1170, 460],
+      ['2006', 660, 1120],
+      ['2007', 1030, 540],
+    ]);
+
+    const chart = await renderChart(hbs`{{area-chart data=data}}`);
+
+    /* Now run some assertions... */
+
+    assert.ok(chart.textContent.indexOf('2007') > -1,
+      'Should contain 2007 data');
+
+  });
+
+});
+
+```
+
+`renderChart()` adds a delay to your test suite that can be removed if you desire (but this may fail test suites in remote environments, like Travis):
+
+```js
+const chart = await renderChart(hbs`{{area-chart data=data}}`, {
+  delay: 0, // Or some number of milliseconds
+});
+```
+
+
+## Development
 
 All PRs and issues are welcome.
 
