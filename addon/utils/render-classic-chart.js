@@ -7,7 +7,14 @@ export default function renderClassicChart(data, options) {
     const type = this.get('type');
     const visualizationName = VisualizationNames[type];
     const chart = new visualization[visualizationName](this.get('element'));
-    const dataTable = visualization.arrayToDataTable(data);
+
+    let dataTable;
+
+    if (data instanceof visualization.DataTable) {
+      dataTable = data;
+    } else {
+      dataTable = visualization.arrayToDataTable(data);
+    }
 
     visualization.events.addListener(chart, 'error', reject);
 

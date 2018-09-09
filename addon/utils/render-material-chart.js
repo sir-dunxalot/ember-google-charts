@@ -5,7 +5,14 @@ export default function renderMaterialChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {
     const { charts, visualization } = window.google;
     const type = capitalize(this.get('type'));
-    const dataTable = visualization.arrayToDataTable(data);
+
+    let dataTable;
+
+    if (data instanceof visualization.DataTable) {
+      dataTable = data;
+    } else {
+      dataTable = visualization.arrayToDataTable(data);
+    }
 
     let chart = this.get('chart');
 

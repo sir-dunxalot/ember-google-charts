@@ -32,12 +32,12 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 
 There are six types of chart supported out of the box:
 
-- Area Charts
-- Bar Charts
-- Geo Charts
-- Line Charts
-- Pie Charts
-- Scatter Charts
+- Area Charts (`{{area-chart}}`)
+- Bar Charts (`{{bar-chart}}`)
+- Geo Charts (`{{geo-chart}}`)
+- Line Charts (`{{line-chart}}`)
+- Pie Charts (`{{pie-chart}}`)
+- Scatter Charts (`{{scatter-chart}}`)
 
 To add a chart to any route, simply add the relevant component:
 
@@ -96,6 +96,34 @@ export default Route.extend({
 
 {{pie-chart data=data options=options}}
 ```
+
+You can pass data as an array (see above example) or as a [Google Data Table](https://developers.google.com/chart/interactive/docs/datatables_dataviews):
+
+```js
+/* stats/route.js */
+
+import Route from '@ember/routing/route';
+
+export default Route.extend({
+
+  model() {
+    return google.visualization.arrayToDataTable([
+      ['Year', 'Sales', 'Expenses'],
+      ['2004', 1000, 400],
+      ['2005', 1170, 460],
+    ], false);
+  },
+
+});
+```
+
+```hbs
+{{!-- stats/template.hbs --}}
+
+{{pie-chart data=data}}
+```
+
+For more information about data tables and how to create them, see the [Google Charts guides](https://developers.google.com/chart/interactive/docs/datatables_dataviews).
 
 Where possible, this addon default to using Material Charts over Google's 'classic' design.
 
