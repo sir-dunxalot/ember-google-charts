@@ -1,10 +1,11 @@
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
+import { later } from '@ember/runloop';
 import { setupRenderingTest } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { assertChart, renderChart } from 'ember-google-charts/test-support';
 
-module('Integration | Component | chart options change', function(hooks) {
+module('Integration | Change chart options', function(hooks) {
   setupRenderingTest(hooks);
 
   const data = [
@@ -19,7 +20,7 @@ module('Integration | Component | chart options change', function(hooks) {
     assert.expect(20);
 
     const options = {
-      title: 'Some legit title',
+      title: 'Sales and expenses',
     };
 
     this.setProperties({
@@ -43,6 +44,10 @@ module('Integration | Component | chart options change', function(hooks) {
     this.set('options', newOptions);
 
     await settled();
+
+    await new Promise((resolve) => {
+      later(resolve, 1000); // Sometimes a delay is needed
+    });
 
     assertChart(assert, chart, {
       data,

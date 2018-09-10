@@ -39,7 +39,7 @@ export default function assertChart(assert, chart, properties = {}) {
 
   if (options.title) {
     assert.ok(chartText.indexOf(options.title) > -1,
-      'The component should have the correct title option set on the chart');
+      'The component should have the correct title');
   }
 
   /* Test data */
