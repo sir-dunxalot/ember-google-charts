@@ -22,6 +22,7 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
 - [Actions](#actions)
   - [chartDidRender()](#chartdidrender)
   - [packagesDidLoad()](#packagesdidload)
+- [Events](#events)
 - [Custom Charts](#custom-charts)
 - [Content Security Policy](#content-security-policy)
 - [Testing](#testing)
@@ -283,6 +284,42 @@ export default Controller.extend({
   packagesDidLoad=(action 'checkGoogleExists')
 }}
 ```
+
+### Events
+
+It's easy to listen to events emitted by a chart:
+
+```js
+/* stats/controller.js */
+
+import Controller from '@ember/controller';
+
+export default Controller.extend({
+
+  actions: {
+    addChartEventListeners(chart) {
+      const { google: { visualization } } = window;
+
+      visualization.events.addListener(chart, 'onmouseover', function(event) {
+        /* Do something here... */;
+      });
+    }
+  },
+
+});
+```
+
+```hbs
+{{!-- stats/template.hbs --}}
+
+{{line-chart
+  data=data
+  options=options
+  chartDidRender=(action 'addChartEventListeners')
+}}
+```
+
+For more information on events, see the [Google Charts event documentation](https://developers.google.com/chart/interactive/docs/events).
 
 ### Custom Charts
 
