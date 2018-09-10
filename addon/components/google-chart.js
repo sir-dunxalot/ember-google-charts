@@ -5,7 +5,9 @@ import { VERSION } from '@ember/version';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { debounce } from '@ember/runloop';
-import { warn, assert } from '@ember/debug';
+import { warn } from '@ember/debug';
+
+import renderChart from 'ember-google-charts/utils/render-chart';
 
 const isUsingEmber2 = VERSION.match(/\b2\.\d+.\d+\b/g);
 
@@ -22,9 +24,10 @@ export default Component.extend({
 
   /* Options */
 
+  design: 'classic', // 'classic' or 'material'
   data: null,
   options: null,
-  type: null,
+  type: null, // 'area', 'bar', 'line', etc
 
   /* Properties */
 
@@ -96,9 +99,7 @@ export default Component.extend({
   @public
   */
 
-  renderChart() {
-    assert('You have created a chart type without a renderChart() method');
-  },
+  renderChart,
 
   setupDependencies: task(function* () {
     const { design, type } = this.getProperties('design', 'type');
@@ -144,9 +145,20 @@ export default Component.extend({
   },
 
   _renderChart: task(function* () {
-    const data = this.get('data');
-    const mergedOptions = this.get('mergedOptions');
-    const chart = yield this.renderChart(data, mergedOptions);
+    const {
+      data,
+      design,
+      element,
+      mergedOptions,
+      type
+    } = this.getProperties('data', 'design', 'element', 'mergedOptions', 'type')
+
+    const chart = yield this.renderChart(element, {
+      data,
+      design,
+      options: mergedOptions,
+      type,
+    });
 
     this.set('chart', chart);
     this.chartDidRender(chart);

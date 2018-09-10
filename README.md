@@ -76,9 +76,9 @@ export default Route.extend({
 ```js
 /* stats/controller.js */
 
-import Route from '@ember/routing/route';
+import Controller from '@ember/controller';
 
-export default Route.extend({
+export default Controller.extend({
 
   options: {
     title: 'How I spend my days',
@@ -131,6 +131,16 @@ For more information about data tables and how to create them, see the [Google C
 Where possible, this addon default to using Material Charts over Google's 'classic' design.
 
 It's very easy to add non-default charts (e.g. table charts or gauge charts) - [see the custom charts docs here](#custom-charts)
+
+#### Design
+
+Indicate which design you want: `classic` or `material`.
+
+```hbs
+{{bar-chart data=data options=options design="classic"}}
+```
+
+Only some chart types support Material Charts. See the [Google Charts documentation](https://developers.google.com/chart/interactive/docs) Chart Types to learn more.
 
 #### Default Options
 
@@ -194,7 +204,7 @@ export GoogleChartsService.extend({
 });
 ```
 
-For more information on locales, see the [Google Charts documentaion](https://developers.google.com/chart/interactive/docs/basic_load_libs#loadwithlocale).
+For more information on locales, see the [Google Charts documentation](https://developers.google.com/chart/interactive/docs/basic_load_libs#loadwithlocale).
 
 Please note, Google Charts dependencies can only be loaded for a single language. This is a [limitation](https://developers.google.com/chart/interactive/docs/basic_load_libs#basic-library-loading) of the Google API loader.
 
@@ -280,18 +290,16 @@ All chart components in this addon extend from a single core component: the `Goo
 
 1. Find the type of chart in [the Google guides](https://developers.google.com/chart/interactive/docs/) and see what Google Charts package it requires
 2. Update the [Google Chart service](https://github.com/sir-dunxalot/ember-google-charts/blob/master/addon/services/google-charts.js) `packages` property with the new Google Charts package you require (if applicable)
-3. Use the `renderMaterialChart` util or `renderClassicChart` util (depending on what Google supports for the chart type) to write a `renderChart` function
+3. Specify whether to use `'material'` or `'classic'` design (depending on what Google Charts documentation says the chart type supports)
 
 ```js
 /* components/gantt-chart.js */
 
 import GoogleChart from 'ember-google-charts/components/google-chart';
-import renderMaterialChart from 'ember-google-charts/utils/render-material-chart';
 
 export default GoogleChart.extend({
+  design: 'classic',
   type: 'gantt',
-
-  renderChart: renderMaterialChart,
 });
 ```
 
@@ -301,13 +309,19 @@ export default GoogleChart.extend({
 import GoogleChartsService from 'ember-google-charts/services/google-charts';
 
 export GoogleChartsService.extend({
-  googlePackages: ['corechart', 'bar', 'line', 'scatter', 'gantt'],
+  googlePackages: ['corechart', 'bar', 'line', 'scatter', 'gantt'], // Added gantt to defaults
 });
 ```
 
-If preferred, you can write your own `renderChart` method. Use the [`renderMaterialChart` util as your guide](https://github.com/sir-dunxalot/ember-google-charts/blob/master/addon/utils/render-material-chart.js).
+If preferred, you can write your own `renderChart` method. Use the [`renderChart` util as your guide](https://github.com/sir-dunxalot/ember-google-charts/blob/master/addon/utils/render-chart.js).
 
-`renderChart` receives the chart `data` and `options` as params and it must return a promise that resolves with the chart object (`resolve(chart)`).
+`renderChart()` receives the DOM Element in which to render the chart followed by the chart properties, which is an object that should include the following properties:
+  - `data` (see usage instructions)
+  - `design` (`'material'` or `'classic'`)
+  - `options` (see usage instructions)
+  - `type` (e.g. `'bar'`, `'line'`, etc)
+
+`renderChart()` must return a promise that resolves with the chart object (`resolve(chart)`).
 
 ### Content Security Policy
 
