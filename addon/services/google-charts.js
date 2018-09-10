@@ -13,7 +13,7 @@ export default Service.extend({
         duration: 500,
         startup: false,
       },
-    },
+    };
   },
 
   loadPackages() {
