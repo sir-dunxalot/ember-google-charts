@@ -102,10 +102,15 @@ export default Component.extend({
   renderChart,
 
   setupDependencies: task(function* () {
-    const type = this.get('type');
-    const options = { id: 'setup-dependencies' };
+    const { design, type } = this.getProperties('design', 'type');
 
-    warn('You did not specify a chart type', type, options);
+    warn(`You did not specify a chart type (e.g. 'bar', 'line', etc)`, type, {
+      id: 'ember-google-charts.supply-type',
+    });
+
+    warn(`You did not specify a chart design ('material' or 'classic')`, design, {
+      id: 'ember-google-charts.supply-type',
+    });
 
     yield this.get('googleCharts').loadPackages();
 
