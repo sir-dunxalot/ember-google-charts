@@ -31,6 +31,8 @@ export default Component.extend({
   chart: null,
   responsiveResize: true,
 
+  defaultOptions: computed.reads('googleCharts.defaultOptions'),
+
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
   }),
