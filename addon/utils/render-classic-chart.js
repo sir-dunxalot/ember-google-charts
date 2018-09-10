@@ -1,35 +1,38 @@
 import RSVP from 'rsvp';
 import VisualizationNames from './visualization-names';
+import formatData from 'ember-google-charts/utils/format-data';
 
 export default function renderClassicChart(data, options) {
   return new RSVP.Promise((resolve, reject) => {
-    const { visualization } = window.google;
+    const { google: { visualization } } = window;
+    const element = this.get('element');
     const type = this.get('type');
     const visualizationName = VisualizationNames[type];
-    const chart = new visualization[visualizationName](this.get('element'));
+    const isAsyncChart = type === 'geo';
 
-    let dataTable;
+    let chart = this.get('chart');
 
-    if (data instanceof visualization.DataTable) {
-      dataTable = data;
-    } else {
-      dataTable = visualization.arrayToDataTable(data);
+    if (!chart) {
+      chart = new visualization[visualizationName](element);
+      visualization.events.addListener(chart, 'error', reject);
+
+      element.chart = chart;
     }
 
-    visualization.events.addListener(chart, 'error', reject);
-
-    /* For charts that aren't immediately ready, listen for the
+    /* For charts that are are created asyncronously, listen for the
     ready event */
 
-    if (type === 'geo') {
+    if (isAsyncChart) {
       visualization.events.addListener(chart, 'ready', function() {
         resolve(chart);
       });
     }
 
-    chart.draw(dataTable, options);
+    /* Draw the chart*/
 
-    if (type !== 'geo') {
+    chart.draw(formatData(data), options);
+
+    if (!isAsyncChart) {
       resolve(chart);
     }
   });

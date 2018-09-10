@@ -11,19 +11,25 @@ export default Service.extend({
   },
 
   loadPackages() {
-    const { google } = window;
+    const { google: { charts } } = window;
 
     return new RSVP.Promise((resolve, reject) => {
-      google.charts.load('current', {
-        language: this.get('language'),
-        packages: this.get('googlePackages'),
-      });
+      const packagesAreLoaded = charts.loader;
 
-      google.charts.setOnLoadCallback((ex) => {
-        if (ex) { reject(ex); }
-
+      if (packagesAreLoaded) {
         resolve();
-      });
+      } else {
+        charts.load('current', {
+          language: this.get('language'),
+          packages: this.get('googlePackages'),
+        });
+
+        charts.setOnLoadCallback((ex) => {
+          if (ex) { reject(ex); }
+
+          resolve();
+        });
+      }
     });
   },
 });

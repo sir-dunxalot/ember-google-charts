@@ -1,97 +1,78 @@
-import { later } from '@ember/runloop';
+import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled, waitFor } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { assertChart, renderChart } from 'ember-google-charts/test-support';
 
 module('Integration | Pass in Google DataTable', function(hooks) {
   setupRenderingTest(hooks);
 
-  const dataArray = [
+  const data = [
     ['Year', 'Sales', 'Expenses'],
     ['2004', 1000, 400],
     ['2005', 1170, 460],
   ];
 
-  const newDataArray = [
-    ['Year', 'Sales', 'Expenses'],
-    ['2008', 1000, 400],
-    ['2009', 1170, 460],
-  ];
+  test('Passing data as a JS Array', async function(assert) {
 
-  test('Passing in data to a Material Chart', async function(assert) {
+    assert.expect(18);
 
-    assert.expect(2);
+    this.set('data', data);
 
-    /* Render a chart with data passed as a JS Array */
+    /* Render a material chart */
 
-    this.set('data', dataArray);
+    const materialChart = await renderChart(hbs`{{bar-chart data=data}}`);
 
-    await render(hbs`{{bar-chart data=data options=options}}`);
-
-    await waitFor('.google-chart svg');
-
-    await new Promise((resolve) => {
-      later(resolve, 1000);
+    assertChart(assert, materialChart, {
+      data,
+      design: 'material',
+      type: 'bar',
     });
 
-    const $component = this.$('.google-chart');
+    /* Render a classic chart */
 
-    assert.ok($component.text().indexOf('2004') > -1,
-      'The chart should be rendered with the data from the array');
+    const classicChart = await renderChart(hbs`{{area-chart data=data}}`);
 
-    /* Render a chart with data passed as a Google DataTable */
-
-    const dataTable = window.google.visualization.arrayToDataTable(newDataArray, false);
-
-    this.set('data', dataTable);
-
-    await settled();
-
-    await new Promise((resolve) => {
-      later(resolve, 1000);
+    assertChart(assert, classicChart, {
+      data,
+      design: 'classic',
+      type: 'area',
     });
-
-    assert.ok($component.text().indexOf('2008') > -1,
-      'The chart should be rendered with the data from the DataTable');
 
   });
 
-    test('Passing in data to a Classic Chart', async function(assert) {
+  test('Passing data as a DataTable', async function(assert) {
 
-    assert.expect(2);
+    assert.expect(18);
+
+    const service = this.owner.lookup('service:google-charts');
+
+    await service.loadPackages();
+
+    const dataTable = window.google.visualization.arrayToDataTable(data, false);
 
     /* Render a chart with data passed as a JS Array */
 
-    this.set('data', dataArray);
-
-    await render(hbs`{{pie-chart data=data options=options}}`);
-
-    await waitFor('.google-chart svg');
-
-    await new Promise((resolve) => {
-      later(resolve, 1000);
-    });
-
-    const $component = this.$('.google-chart');
-
-    assert.ok($component.text().indexOf('2004') > -1,
-      'The chart should be rendered with the data from the array');
-
-    /* Render a chart with data passed as a Google DataTable */
-
-    const dataTable = window.google.visualization.arrayToDataTable(newDataArray, false);
-
     this.set('data', dataTable);
 
-    await settled();
+    /* Render a material chart */
 
-    await new Promise((resolve) => {
-      later(resolve, 1000);
+    const materialChart = await renderChart(hbs`{{bar-chart data=data}}`);
+
+    assertChart(assert, materialChart, {
+      data,
+      design: 'material',
+      type: 'bar',
     });
 
-    assert.ok($component.text().indexOf('2008') > -1,
-      'The chart should be rendered with the data from the DataTable');
+    /* Render a classic chart */
+
+    const classicChart = await renderChart(hbs`{{area-chart data=data}}`);
+
+    assertChart(assert, classicChart, {
+      data,
+      design: 'classic',
+      type: 'area',
+    });
 
   });
 

@@ -1,44 +1,32 @@
+import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import testChartRendering from '../../helpers/test-chart-rendering';
-import testChartOptions from '../../helpers/test-chart-options';
-
-const data = [
-  ['Country', 'Popularity'],
-  ['South America', 600],
-  ['Canada', 500],
-  ['France', 600],
-  ['Russia', 700],
-  ['Australia', 600],
-];
+import { assertChart, renderChart } from 'ember-google-charts/test-support';
 
 module('Integration | Component | geo chart', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('Rendering the chart', function(assert) {
+  const data = [
+    ['Country', 'Popularity'],
+    ['South America', 600],
+    ['Canada', 500],
+    ['France', 600],
+    ['Russia', 700],
+    ['Australia', 600],
+  ];
 
-    testChartRendering(assert, {
-      context: this,
+  test('Rendering the chart', async function(assert) {
+    assert.expect(6);
+
+    this.set('data', data);
+
+    const chart = await renderChart(hbs`{{geo-chart data=data}}`);
+
+    assertChart(assert, chart, {
       data,
-      template: hbs`{{geo-chart data=data chartDidRender=(action 'chartDidRender')}}`,
+      design: 'classic',
       type: 'geo',
-      usingMaterialCharts: false,
     });
-
   });
 
-  test('Setting options', async function(assert) {
-
-    await testChartOptions(assert, {
-      context: this,
-      data,
-      options: {
-        title: null,
-      },
-      template: hbs`{{geo-chart data=data options=options}}`,
-    });
-
-  });
 });

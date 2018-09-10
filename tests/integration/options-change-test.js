@@ -1,9 +1,10 @@
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { settled } from '@ember/test-helpers';
 import { assertChart, renderChart } from 'ember-google-charts/test-support';
 
-module('Integration | Component | line chart', function(hooks) {
+module('Integration | Component | chart options change', function(hooks) {
   setupRenderingTest(hooks);
 
   const data = [
@@ -14,15 +15,17 @@ module('Integration | Component | line chart', function(hooks) {
     ['2007', 1030, 540],
   ];
 
-  const options = {
-    title: 'Element densities',
-  };
+  test('Changing options and rerender', async function(assert) {
+    assert.expect(20);
 
-  test('Rendering the chart', async function(assert) {
-    assert.expect(10);
+    const options = {
+      title: 'Some legit title',
+    };
 
-    this.set('data', data);
-    this.set('options', options);
+    this.setProperties({
+      data,
+      options,
+    });
 
     const chart = await renderChart(hbs`{{line-chart data=data options=options}}`);
 
@@ -32,5 +35,21 @@ module('Integration | Component | line chart', function(hooks) {
       options,
       type: 'line',
     });
+
+    const newOptions = {
+      title: 'A different title',
+    };
+
+    this.set('options', newOptions);
+
+    await settled();
+
+    assertChart(assert, chart, {
+      data,
+      design: 'material',
+      options: newOptions,
+      type: 'line',
+    });
+
   });
 });
