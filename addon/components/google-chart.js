@@ -31,6 +31,8 @@ export default Component.extend({
   chart: null,
   responsiveResize: true,
 
+  defaultOptions: computed.reads('googleCharts.defaultOptions'),
+
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
   }),
@@ -56,12 +58,6 @@ export default Component.extend({
     this._super(...arguments);
     this.classNameBindings = ['className'];
     this.classNames = ['google-chart'];
-    this.defaultOptions = this.defaultOptions || {
-      animation: {
-        duration: 500,
-        startup: false,
-      },
-    };
   },
 
   didInsertElement() {

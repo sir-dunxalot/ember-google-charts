@@ -8,6 +8,12 @@ export default Service.extend({
     this._super(...arguments);
 
     this.googlePackages = this.googlePackages || ['corechart', 'bar', 'line', 'scatter'];
+    this.defaultOptions = this.defaultOptions || {
+      animation: {
+        duration: 500,
+        startup: false,
+      },
+    };
   },
 
   loadPackages() {
