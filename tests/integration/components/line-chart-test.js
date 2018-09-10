@@ -1,40 +1,36 @@
+import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import testChartRendering from '../../helpers/test-chart-rendering';
-import testChartOptions from '../../helpers/test-chart-options';
-
-const data = [
-  ['Year', 'Sales', 'Expenses'],
-  ['2004', 1000, 400],
-  ['2005', 1170, 460],
-  ['2006', 660, 1120],
-  ['2007', 1030, 540],
-];
+import { assertChart, renderChart } from 'ember-google-charts/test-support';
 
 module('Integration | Component | line chart', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('Rendering the chart', function(assert) {
+  const data = [
+    ['Year', 'Sales', 'Expenses'],
+    ['2004', 1000, 400],
+    ['2005', 1170, 460],
+    ['2006', 660, 1120],
+    ['2007', 1030, 540],
+  ];
 
-    testChartRendering(assert, {
-      context: this,
+  const options = {
+    title: 'Element densities',
+  };
+
+  test('Rendering the chart', async function(assert) {
+    assert.expect(10);
+
+    this.set('data', data);
+    this.set('options', options);
+
+    const chart = await renderChart(hbs`{{line-chart data=data options=options}}`);
+
+    assertChart(assert, chart, {
       data,
-      template: hbs`{{line-chart data=data chartDidRender=(action 'chartDidRender')}}`,
+      design: 'material',
+      options,
       type: 'line',
-      usingMaterialCharts: true,
     });
-
-  });
-
-  test('Setting options', async function(assert) {
-
-    await testChartOptions(assert, {
-      context: this,
-      data,
-      template: hbs`{{line-chart data=data options=options}}`,
-    });
-
   });
 });

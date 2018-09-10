@@ -1,45 +1,55 @@
+import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import { renderChart } from 'ember-google-charts/test-support';
-
-const data = [
-  ['Year', 'Sales', 'Expenses'],
-  ['2004', 1000, 400],
-  ['2005', 1170, 460],
-  ['2006', 660, 1120],
-  ['2007', 1030, 540],
-];
+import { assertChart, renderChart } from 'ember-google-charts/test-support';
 
 module('Integration | Component | chart options change', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('Changing options and rerender', async function(assert) {
-    assert.expect(2);
+  const data = [
+    ['Year', 'Sales', 'Expenses'],
+    ['2004', 1000, 400],
+    ['2005', 1170, 460],
+    ['2006', 660, 1120],
+    ['2007', 1030, 540],
+  ];
 
-    const title = 'Some legit title';
+  test('Changing options and rerender', async function(assert) {
+    assert.expect(20);
+
+    const options = {
+      title: 'Some legit title',
+    };
 
     this.setProperties({
       data,
-      options: { title },
+      options,
     });
 
     const chart = await renderChart(hbs`{{line-chart data=data options=options}}`);
 
-    assert.ok(chart.textContent.indexOf(title) > -1,
-      'The component should have a title');
-
-    const newTitle = 'A new title';
-
-    this.set('options', {
-      title: newTitle,
+    assertChart(assert, chart, {
+      data,
+      design: 'material',
+      options,
+      type: 'line',
     });
+
+    const newOptions = {
+      title: 'A different title',
+    };
+
+    this.set('options', newOptions);
 
     await settled();
 
-    assert.ok(chart.textContent.indexOf(newTitle) > -1,
-      'The component should have the new title');
+    assertChart(assert, chart, {
+      data,
+      design: 'material',
+      options: newOptions,
+      type: 'line',
+    });
 
   });
 });

@@ -20,11 +20,13 @@ See the [demo app](http://sir-dunxalot.github.io/ember-google-charts/) here.
   - [Locales](#locales)
   - [Resize](#resize)
 - [Actions](#actions)
-  - [chartDidRender](#chartdidrender)
-  - [packagesDidLoad](#packagesdidload)
+  - [chartDidRender()](#chartdidrender)
+  - [packagesDidLoad()](#packagesdidload)
 - [Custom Charts](#custom-charts)
 - [Content Security Policy](#content-security-policy)
 - [Testing](#testing)
+  - [renderChart()](#renderchart)
+  - [assertChart()](#assertchart)
 - [Development](#development)
 
 ## Usage
@@ -183,7 +185,7 @@ By default charts will rerender when the window size changes. You can opt out of
 
 Two actions are available for you to hook on to:
 
-#### chartDidRender
+#### chartDidRender()
 
 This fires when the Google chart has rendered and is ready for interaction via Google Charts public methods.
 
@@ -215,7 +217,7 @@ export default Controller.extend({
 }}
 ```
 
-#### packagesDidLoad
+#### packagesDidLoad()
 
 This fires when the Google chart has finished loading the required Google packages for a specific chart.
 
@@ -296,11 +298,20 @@ contentSecurityPolicy: {
 
 ## Testing
 
-This addon gives you a `renderChart()` test helper you can use in your app's test suite.
+This addon makes two test helpers available that you can use in your app's test suite:
 
-The `renderChart()` is an async helper that returns an `Element`.
+- `renderChart()`
+- `assertChart()`
 
-It's designed for use in integration tests, for example:
+### renderChart()
+
+`renderChart()` is an async helper that renders a chart using `@ember/test-helpers`'s `render()` method.
+
+You must pass in an ES6 tagged template string, as is expected by `render()`, [documented here](https://github.com/emberjs/ember-test-helpers/blob/master/API.md#render), so this helper is designed for use in integration tests.
+
+For convenience, `renderChart()` returns the chart's DOM element.
+
+For example:
 
 ```js
 /* tests/integration/some-test */
@@ -312,7 +323,7 @@ import { renderChart } from 'ember-google-charts/test-support';
 module('Integration | Component | pretty color', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('Some test', async function() {
+  test('Rendering the expenses chart', async function(assert) {
     this.set('data', [
       ['Year', 'Sales', 'Expenses'],
       ['2004', 1000, 400],
@@ -342,6 +353,69 @@ const chart = await renderChart(hbs`{{area-chart data=data}}`, {
 });
 ```
 
+### assertChart()
+
+`assertChart()` runs a series of predefined assertions on any chart element to assert that the chart has been rendered correctly.
+
+`assertChart()` expects several params to be passed:
+
+- `assert`, which is available in all 'ember-qunit' tests
+- `chart`, which is the chart's element and is returned by the [`renderChart()` test helper](#renderchart)
+- `properties`, which is an object that should include the properties passed into the chart component:
+  - `data`
+  - `design` (`'material'` or `'classic'`)
+  - `options`
+  - `type` (e.g. `'bar'`, `'line'`, etc)
+
+Here is an example, which also uses `renderChart()`:
+
+```js
+/* tests/integration/some-test */
+
+import { module } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { assertChart, renderChart } from 'ember-google-charts/test-support';
+
+module('Integration | Component | pretty color', function(hooks) {
+  setupRenderingTest(hooks);
+
+  const data = [
+    ['Year', 'Sales', 'Expenses'],
+    ['2004', 1000, 400],
+    ['2005', 1170, 460],
+    ['2006', 660, 1120],
+    ['2007', 1030, 540],
+  ];
+
+  const options = {
+    title: 'Yearly expenses',
+    animation: {
+      startup: true,
+      easing: 'inAndOut',
+    },
+  };
+
+  test('Rendering the expenses chart', async function(assert) {
+
+    this.setProperties({
+      data,
+      options,
+    });
+
+    const chart = await renderChart(hbs`{{area-chart data=data options=options}}`);
+
+    assertChart(assert, chart, {
+      data,
+      design: 'classic', // Because it's not a Material Chart
+      options,
+      type: 'area',
+    });
+
+  });
+
+});
+
+```
 
 ## Development
 
