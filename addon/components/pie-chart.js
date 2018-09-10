@@ -1,8 +1,7 @@
 import GoogleChart from './google-chart';
-import renderClassicChart from 'ember-google-charts/utils/render-classic-chart';
+import RenderChart from '../mixins/render-chart';
 
-export default GoogleChart.extend({
+export default GoogleChart.extend(RenderChart, {
   type: 'pie',
-
-  renderChart: renderClassicChart,
+  defaultDesign: 'classic',
 });

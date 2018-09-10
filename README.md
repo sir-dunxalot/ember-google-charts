@@ -76,9 +76,9 @@ export default Route.extend({
 ```js
 /* stats/controller.js */
 
-import Route from '@ember/routing/route';
+import Controller from '@ember/controller';
 
-export default Route.extend({
+export default Controller.extend({
 
   options: {
     title: 'How I spend my days',
@@ -131,6 +131,14 @@ For more information about data tables and how to create them, see the [Google C
 Where possible, this addon default to using Material Charts over Google's 'classic' design.
 
 It's very easy to add non-default charts (e.g. table charts or gauge charts) - [see the custom charts docs here](#custom-charts)
+
+#### Design Option
+
+Indicate which design you want: `classic` or `material`.
+
+```hbs
+{{bar-chart data=data options=options design="classic"}}
+```
 
 #### Default Options
 
