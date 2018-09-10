@@ -103,7 +103,6 @@ export default Component.extend({
 
   setupDependencies: task(function* () {
     const { design, type } = this.getProperties('design', 'type');
-    const options = { id: 'setup-dependencies' };
 
     warn(`You did not specify a chart type (e.g. 'bar', 'line', etc)`, type, {
       id: 'ember-google-charts.supply-type',
