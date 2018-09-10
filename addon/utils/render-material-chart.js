@@ -1,24 +1,21 @@
-import RSVP from 'rsvp';
-import { capitalize } from '@ember/string';
-import formatData from 'ember-google-charts/utils/format-data';
+import { warn } from '@ember/debug';
+import renderChart from 'ember-google-charts/utils/render-chart';
 
 export default function renderMaterialChart(data, options) {
-  return new RSVP.Promise((resolve, reject) => {
-    const { google: { charts, visualization } } = window;
-    const element = this.get('element');
-    const type = capitalize(this.get('type'));
+  warn(`renderMaterialChart() has been deprecated. Use renderChart() instead. See https://github.com/sir-dunxalot/ember-google-charts#custom-charts`, {
+    id: 'ember-google-charts.unified-render-util',
+  });
 
-    let chart = this.get('chart');
+  const {
+    design,
+    element,
+    type,
+  } = this.getProperties('design', 'element', 'type');
 
-    if (!chart) {
-      chart = new charts[type](element);
-      visualization.events.addListener(chart, 'error', reject);
-
-      element.chart = chart;
-    }
-
-    chart.draw(formatData(data), charts[type].convertOptions(options));
-
-    resolve(chart);
+  return renderChart(element, {
+    data,
+    design,
+    options,
+    type,
   });
 }

@@ -1,4 +1,4 @@
-export default function createDataTable(data) {
+export default function formatData(data) {
   const { google: { visualization } } = window;
   const isDataTable = data instanceof visualization.DataTable;
 
