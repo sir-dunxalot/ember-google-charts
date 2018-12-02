@@ -1,7 +1,6 @@
 import { reads } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import $ from 'jquery';
 import { VERSION } from '@ember/version';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
@@ -77,7 +76,7 @@ export default Component.extend({
     }
 
     if (this.get('responsiveResize')) {
-      $(window).on(`resize.${this.get('elementId')}`, () => debounce(this, '_handleResize', 200));
+      window.addEventListener('resize', this._handleResize);
     }
   },
 
@@ -123,20 +122,22 @@ export default Component.extend({
   /* Private methods */
 
   _handleResize() {
-    const element = this.get('element');
+    debounce(() => {
+      const element = this.get('element');
 
-    element.style.display = 'flex';
+      element.style.display = 'flex';
 
-    /* Classic charts have an extra parent div */
+      /* Classic charts have an extra parent div */
 
-    const child = element.children;
-    const grandchild = child.children;
-    const chartContainer = getComputedStyle(grandchild)['position'] === 'absolute' ? child : grandchild;
+      const child = element.children;
+      const grandchild = child.children;
+      const chartContainer = getComputedStyle(grandchild)['position'] === 'absolute' ? child : grandchild;
 
-    chartContainer.style.width = '';
-    chartContainer.style.flex = 'auto';
+      chartContainer.style.width = '';
+      chartContainer.style.flex = 'auto';
 
-    this._rerenderChart();
+      this._rerenderChart();
+    }, 200)
   },
 
   _rerenderChart() {
@@ -178,7 +179,7 @@ export default Component.extend({
       this.removeObserver('mergedOptions', this, this._rerenderChart);
     }
 
-    $(window).off(`resize.${this.get('elementId')}`);
+    window.removeEventListener('resize', this._handleResize);
   },
 
 });
