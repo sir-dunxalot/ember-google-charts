@@ -8,6 +8,7 @@ import { computed } from '@ember/object';
 import { debounce } from '@ember/runloop';
 import { warn } from '@ember/debug';
 
+import merge from 'ember-google-charts/utils/merge';
 import renderChart from 'ember-google-charts/utils/render-chart';
 
 const isUsingEmber2 = VERSION.match(/\b2\.\d+.\d+\b/g);
@@ -53,7 +54,7 @@ export default Component.extend({
     const defaultOptions = this.get('defaultOptions');
     const options = this.get('options');
 
-    return $.extend({}, defaultOptions, options);
+    return merge({}, defaultOptions, options);
   }),
 
   /* Lifecycle hooks */
