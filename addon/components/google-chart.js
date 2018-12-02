@@ -1,3 +1,4 @@
+import { reads } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 import $ from 'jquery';
@@ -34,7 +35,7 @@ export default Component.extend({
   chart: null,
   responsiveResize: true,
 
-  defaultOptions: computed.reads('googleCharts.defaultOptions'),
+  defaultOptions: reads('googleCharts.defaultOptions'),
 
   className: computed('type', function() {
     return `${this.get('type')}-chart`;
