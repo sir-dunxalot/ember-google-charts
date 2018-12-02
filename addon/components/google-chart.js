@@ -122,18 +122,18 @@ export default Component.extend({
   /* Private methods */
 
   _handleResize() {
-    this.$().css({
-      display: 'flex',
-    });
+    const element = this.get('element');
+
+    element.style.display = 'flex';
 
     /* Classic charts have an extra parent div */
 
-    let chartContainer = this.$().children().children().css('position') === 'absolute' ? this.$().children() : this.$().children().children();
+    const child = element.children;
+    const grandchild = child.children;
+    const chartContainer = getComputedStyle(grandchild)['position'] === 'absolute' ? child : grandchild;
 
-    chartContainer.css({
-      width: '',
-      flex: 'auto',
-    });
+    chartContainer.style.width = '';
+    chartContainer.style.flex = 'auto';
 
     this._rerenderChart();
   },
