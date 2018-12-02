@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-google-charts',
+  name: require('./package').name,
 
   contentFor: function(type) {
     if (type === 'body-footer') {
