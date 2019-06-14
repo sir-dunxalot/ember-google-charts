@@ -16,13 +16,13 @@ export default Service.extend({
     };
   },
 
+  packagesAreLoaded: false,
+
   loadPackages() {
     const { google: { charts } } = window;
 
     return new RSVP.Promise((resolve, reject) => {
-      const packagesAreLoaded = charts.loader;
-
-      if (packagesAreLoaded) {
+      if (this.packagesAreLoaded) {
         resolve();
       } else {
         charts.load('current', {
@@ -33,6 +33,7 @@ export default Service.extend({
         charts.setOnLoadCallback((ex) => {
           if (ex) { reject(ex); }
 
+          this.packagesAreLoaded = true
           resolve();
         });
       }
