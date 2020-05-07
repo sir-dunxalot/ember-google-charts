@@ -17,12 +17,10 @@ export default Service.extend({
   },
 
   loadPackages() {
-    const { google: { charts } } = window;
+    const { google: { charts, visualization } } = window;
 
     return new RSVP.Promise((resolve, reject) => {
-      const packagesAreLoaded = charts.loader;
-
-      if (packagesAreLoaded) {
+      if (visualization !== undefined) {
         resolve();
       } else {
         charts.load('current', {
