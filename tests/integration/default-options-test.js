@@ -33,7 +33,7 @@ module('Integration | Component | chart options change', function(hooks) {
       data,
     });
 
-    const chart = await renderChart(hbs`{{line-chart data=data}}`);
+    const chart = await renderChart(hbs`<LineChart @data={{this.data}} />`);
 
     assertChart(assert, chart, {
       data,
@@ -55,7 +55,7 @@ module('Integration | Component | chart options change', function(hooks) {
       options,
     });
 
-    const chart = await renderChart(hbs`{{line-chart data=data defaultOptions=options}}`);
+    const chart = await renderChart(hbs`<LineChart @data={{this.data}} @defaultOptions={{this.options}} />`);
 
     assertChart(assert, chart, {
       data,

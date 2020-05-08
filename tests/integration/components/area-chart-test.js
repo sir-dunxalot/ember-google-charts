@@ -24,7 +24,7 @@ module('Integration | Component | area chart', function(hooks) {
     this.set('data', data);
     this.set('options', options);
 
-    const chart = await renderChart(hbs`{{area-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`<AreaChart @data={{this.data}} @options={{this.options}} />`);
 
     assertChart(assert, chart, {
       data,

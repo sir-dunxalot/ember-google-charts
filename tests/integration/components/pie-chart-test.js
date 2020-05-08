@@ -25,7 +25,7 @@ module('Integration | Component | pie chart', function(hooks) {
     this.set('data', data);
     this.set('options', options);
 
-    const chart = await renderChart(hbs`{{pie-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`<PieChart @data={{this.data}} @options={{this.options}} />`);
 
     assertChart(assert, chart, {
       data,
