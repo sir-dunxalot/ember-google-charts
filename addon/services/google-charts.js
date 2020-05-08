@@ -1,5 +1,6 @@
 import RSVP from 'rsvp';
 import Service from '@ember/service';
+import { debounce } from '@ember/runloop';
 
 export default Service.extend({
   language: 'en',
