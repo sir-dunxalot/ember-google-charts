@@ -24,8 +24,8 @@ export default Service.extend({
         resolve();
       } else {
         charts.load('current', {
-          language: this.get('language'),
-          packages: this.get('googlePackages'),
+          language: this.language,
+          packages: this.googlePackages,
         });
 
         charts.setOnLoadCallback((ex) => {

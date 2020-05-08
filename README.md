@@ -3,7 +3,21 @@ Ember Google Charts [![Build Status](https://travis-ci.org/sir-dunxalot/ember-go
 
 Ember Google Charts makes it very easy to implement [Google Charts](https://developers.google.com/chart/) in Ember CLI apps.
 
+<<<<<<< HEAD
 All dependencies are lazy loaded using the [Google JS API Loader](https://developers.google.com/loader/?hl=en), which intelligently caches requests between a user's sessions.
+=======
+
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v3.12 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
+
+
+Installation
+------------------------------------------------------------------------------
+>>>>>>> 966b746... v3.5.1...v3.18.0
 
 ![](http://sir-dunxalot.github.io/ember-google-charts/ember-google-charts-26d23374a6e3e3d7bc0bf51e4540c0ec.jpg)
 
@@ -44,6 +58,12 @@ There are six types of chart supported out of the box:
 - Scatter Charts (`{{scatter-chart}}`)
 
 To add a chart to any route, simply add the relevant component:
+
+```hbs
+<AreaChart @data={{this.model}} @options={{this.options}} />
+```
+
+Or if you're using an old template syntax:
 
 ```hbs
 {{area-chart data=data options=options}}
@@ -98,7 +118,7 @@ export default Controller.extend({
 ```hbs
 {{!-- stats/template.hbs --}}
 
-{{pie-chart data=data options=options}}
+<PieChart @data={{this.model}} @options={{this.options}} />
 ```
 
 You can pass data as an array (see above example) or as a [Google Data Table](https://developers.google.com/chart/interactive/docs/datatables_dataviews):
@@ -124,7 +144,7 @@ export default Route.extend({
 ```hbs
 {{!-- stats/template.hbs --}}
 
-{{pie-chart data=data}}
+<PieChart @data={{this.model}} @options={{this.options}} />
 ```
 
 For more information about data tables and how to create them, see the [Google Charts guides](https://developers.google.com/chart/interactive/docs/datatables_dataviews).
@@ -138,7 +158,7 @@ It's very easy to add non-default charts (e.g. table charts or gauge charts) - [
 Indicate which design you want: `classic` or `material`.
 
 ```hbs
-{{bar-chart data=data options=options design="classic"}}
+<BarChart @data={{this.model}} @options={{this.options}} @design="classic" />
 ```
 
 Only some chart types support Material Charts. See the [Google Charts documentation](https://developers.google.com/chart/interactive/docs) Chart Types to learn more.
@@ -246,11 +266,11 @@ export default Controller.extend({
 ```hbs
 {{!-- stats/template.hbs --}}
 
-{{geo-chart
-  data=data
-  options=options
-  chartDidRender=(action 'selectCountry')
-}}
+<GeoChart
+  @data={{this.model}}
+  @options={{this.options}}
+  @chartDidRender=(action 'selectCountry')
+/>
 ```
 
 #### packagesDidLoad()
@@ -268,7 +288,9 @@ export default Controller.extend({
 
   actions: {
     checkGoogleExists() {
-      // Do something
+      if (window.google) {
+        // Do something...
+      }
     },
   },
 
@@ -278,11 +300,11 @@ export default Controller.extend({
 ```hbs
 {{!-- stats/template.hbs --}}
 
-{{line-chart
-  data=data
-  options=options
-  packagesDidLoad=(action 'checkGoogleExists')
-}}
+<LineChart
+  @data={{this.model}}
+  @options={{this.options}}
+  @packagesDidLoad=(action 'checkGoogleExists')
+/>
 ```
 
 ### Events
@@ -312,11 +334,11 @@ export default Controller.extend({
 ```hbs
 {{!-- stats/template.hbs --}}
 
-{{line-chart
-  data=data
-  options=options
-  chartDidRender=(action 'addChartEventListeners')
-}}
+<LineChart
+  @data={{this.model}}
+  @options={{this.options}}
+  @chartDidRender=(action 'addChartEventListeners')
+/>
 ```
 
 For more information on events, see the [Google Charts event documentation](https://developers.google.com/chart/interactive/docs/events).
@@ -486,9 +508,7 @@ module('Integration | Component | pretty color', function(hooks) {
       options,
       type: 'area',
     });
-
   });
-
 });
 
 ```

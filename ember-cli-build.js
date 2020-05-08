@@ -1,8 +1,8 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var autoprefixer = require('autoprefixer');
-var nodeSass = require('node-sass');
+'use strict';
+
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+const autoprefixer = require('autoprefixer');
+const nodeSass = require('node-sass');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {

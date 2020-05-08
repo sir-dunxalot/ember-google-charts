@@ -24,7 +24,7 @@ module('Integration | Component | line chart', function(hooks) {
     this.set('data', data);
     this.set('options', options);
 
-    const chart = await renderChart(hbs`{{line-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`<LineChart @data={{this.data}} @options={{this.options}} />`);
 
     assertChart(assert, chart, {
       data,

@@ -20,7 +20,7 @@ module('Integration | Component | geo chart', function(hooks) {
 
     this.set('data', data);
 
-    const chart = await renderChart(hbs`{{geo-chart data=data}}`);
+    const chart = await renderChart(hbs`<GeoChart @data={{this.data}} />`);
 
     assertChart(assert, chart, {
       data,

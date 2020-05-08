@@ -20,7 +20,7 @@ module('Integration | Pass in Google DataTable', function(hooks) {
 
     /* Render a material chart */
 
-    const materialChart = await renderChart(hbs`{{bar-chart data=data}}`);
+    const materialChart = await renderChart(hbs`<BarChart @data={{this.data}} />`);
 
     assertChart(assert, materialChart, {
       data,
@@ -30,7 +30,7 @@ module('Integration | Pass in Google DataTable', function(hooks) {
 
     /* Render a classic chart */
 
-    const classicChart = await renderChart(hbs`{{area-chart data=data}}`);
+    const classicChart = await renderChart(hbs`<AreaChart @data={{this.data}} />`);
 
     assertChart(assert, classicChart, {
       data,
@@ -56,7 +56,7 @@ module('Integration | Pass in Google DataTable', function(hooks) {
 
     /* Render a material chart */
 
-    const materialChart = await renderChart(hbs`{{bar-chart data=data}}`);
+    const materialChart = await renderChart(hbs`<BarChart @data={{this.data}} />`);
 
     assertChart(assert, materialChart, {
       data,
@@ -66,7 +66,7 @@ module('Integration | Pass in Google DataTable', function(hooks) {
 
     /* Render a classic chart */
 
-    const classicChart = await renderChart(hbs`{{area-chart data=data}}`);
+    const classicChart = await renderChart(hbs`<AreaChart @data={{this.data}} />`);
 
     assertChart(assert, classicChart, {
       data,

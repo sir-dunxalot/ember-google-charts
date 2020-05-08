@@ -24,7 +24,7 @@ module('Integration | Component | scatter chart', function(hooks) {
     this.set('data', data);
     this.set('options', options);
 
-    const chart = await renderChart(hbs`{{scatter-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`<ScatterChart @data={{this.data}} @options={{this.options}} />`);
 
     assertChart(assert, chart, {
       data,

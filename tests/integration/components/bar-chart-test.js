@@ -24,7 +24,7 @@ module('Integration | Component | bar chart', function(hooks) {
     this.set('data', data);
     this.set('options', options);
 
-    const chart = await renderChart(hbs`{{bar-chart data=data options=options}}`);
+    const chart = await renderChart(hbs`<BarChart @data={{this.data}} @options={{this.options}} />`);
 
     assertChart(assert, chart, {
       data,

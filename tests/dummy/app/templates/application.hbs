@@ -5,40 +5,40 @@
       <ul>
 
         <li class="page-header-logo">
-          {{#link-to 'index'}}
-            <img src="ember.png" class="logo" height="30"/>
+          <LinkTo @route="index">
+            <img src="/ember.png" class="logo" height="30" alt="Ember JS">
             <h2 class="text">&nbsp;Google Charts</h2>
-          {{/link-to}}
+          </LinkTo>
         </li>
 
         <hr>
 
         <li>
-          {{#link-to 'chart-types.area'}}Area charts{{/link-to}}
+          <LinkTo @route="chart-types.area">Area charts</LinkTo>
         </li>
 
         <li>
-          {{#link-to 'chart-types.bar'}}Bar charts{{/link-to}}
+          <LinkTo @route="chart-types.bar">Bar charts</LinkTo>
         </li>
 
         <li>
-          {{#link-to 'chart-types.geo'}}Geo charts{{/link-to}}
+          <LinkTo @route="chart-types.geo">Geo charts</LinkTo>
         </li>
 
         <li>
-          {{#link-to 'chart-types.line'}}Line charts{{/link-to}}
+          <LinkTo @route="chart-types.line">Line charts</LinkTo>
         </li>
 
         <li>
-          {{#link-to 'chart-types.pie'}}Pie charts{{/link-to}}
+          <LinkTo @route="chart-types.pie">Pie charts</LinkTo>
         </li>
 
         <li>
-          {{#link-to 'chart-types.scatter'}}Scatter charts{{/link-to}}
+          <LinkTo @route="chart-types.scatter">Scatter charts</LinkTo>
         </li>
 
         <li>
-          {{#link-to 'promises'}}Promises{{/link-to}}
+          <LinkTo @route="promises">Promises</LinkTo>
         </li>
 
         <hr>

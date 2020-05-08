@@ -1,12 +1,13 @@
+import { reads } from '@ember/object/computed';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-import $ from 'jquery';
 import { VERSION } from '@ember/version';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { debounce } from '@ember/runloop';
 import { warn } from '@ember/debug';
 
+import merge from 'ember-google-charts/utils/merge';
 import renderChart from 'ember-google-charts/utils/render-chart';
 
 const isUsingEmber2 = VERSION.match(/\b2\.\d+.\d+\b/g);
@@ -34,10 +35,10 @@ export default Component.extend({
   chart: null,
   responsiveResize: true,
 
-  defaultOptions: computed.reads('googleCharts.defaultOptions'),
+  defaultOptions: reads('googleCharts.defaultOptions'),
 
   className: computed('type', function() {
-    return `${this.get('type')}-chart`;
+    return `${this.type}-chart`;
   }),
 
   /**
@@ -49,10 +50,10 @@ export default Component.extend({
   */
 
   mergedOptions: computed('defaultOptions', 'options', function() {
-    const defaultOptions = this.get('defaultOptions');
-    const options = this.get('options');
+    const defaultOptions = this.defaultOptions;
+    const options = this.options;
 
-    return $.extend({}, defaultOptions, options);
+    return merge({}, defaultOptions, options);
   }),
 
   /* Lifecycle hooks */
@@ -65,7 +66,7 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    this.get('setupDependencies').perform();
+    this.setupDependencies.perform();
 
     /* If the Ember version is less than 2.0.0... */
 
@@ -74,8 +75,8 @@ export default Component.extend({
       this.addObserver('mergedOptions', this, this._rerenderChart);
     }
 
-    if (this.get('responsiveResize')) {
-      $(window).on(`resize.${this.get('elementId')}`, () => debounce(this, '_handleResize', 200));
+    if (this.responsiveResize) {
+      window.addEventListener('resize', this._handleResize);
     }
   },
 
@@ -102,7 +103,10 @@ export default Component.extend({
   renderChart,
 
   setupDependencies: task(function* () {
-    const { design, type } = this.getProperties('design', 'type');
+    const {
+      design,
+      type,
+    } = this;
 
     warn(`You did not specify a chart type (e.g. 'bar', 'line', etc)`, type, {
       id: 'ember-google-charts.supply-type',
@@ -112,34 +116,40 @@ export default Component.extend({
       id: 'ember-google-charts.supply-type',
     });
 
-    yield this.get('googleCharts').loadPackages();
+    yield this.googleCharts.loadPackages();
 
     this.packagesDidLoad();
-    this.get('_renderChart').perform();
+    this._renderChart.perform();
   }),
 
   /* Private methods */
 
   _handleResize() {
-    this.$().css({
-      display: 'flex',
-    });
+    debounce(this, this._handlingResize, 200);
+  },
+
+  _handlingResize() {
+    const { element } = this;
+
+    element.style.display = 'flex';
 
     /* Classic charts have an extra parent div */
 
-    let chartContainer = this.$().children().children().css('position') === 'absolute' ? this.$().children() : this.$().children().children();
+    const child = element.children;
+    const grandchild = child.children;
+    const chartContainer = getComputedStyle(grandchild)['position'] === 'absolute' ? child : grandchild;
 
-    chartContainer.css({
-      width: '',
-      flex: 'auto',
-    });
+    chartContainer.style.width = '';
+    chartContainer.style.flex = 'auto';
 
     this._rerenderChart();
   },
 
   _rerenderChart() {
-    if (this.get('chart') && this.get('data')) {
-      this.get('_renderChart').perform();
+    const { chart, data } = this;
+
+    if (chart && data) {
+      this._renderChart.perform();
     }
   },
 
@@ -150,7 +160,7 @@ export default Component.extend({
       element,
       mergedOptions,
       type
-    } = this.getProperties('data', 'design', 'element', 'mergedOptions', 'type')
+    } = this;
 
     const chart = yield this.renderChart(element, {
       data,
@@ -164,7 +174,7 @@ export default Component.extend({
   }),
 
   _teardownChart() {
-    const chart = this.get('chart');
+    const { chart } = this;
 
     if (chart) {
       window.google.visualization.events.removeAllListeners(chart);
@@ -176,7 +186,7 @@ export default Component.extend({
       this.removeObserver('mergedOptions', this, this._rerenderChart);
     }
 
-    $(window).off(`resize.${this.get('elementId')}`);
+    window.removeEventListener('resize', this._handleResize);
   },
 
 });
