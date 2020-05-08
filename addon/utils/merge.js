@@ -8,8 +8,9 @@ export default function merge(out) {
       continue;
 
     for (let key in arguments[i]) {
-      if (arguments[i].hasOwnProperty(key))
+      if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
         out[key] = arguments[i][key];
+      }
     }
   }
 

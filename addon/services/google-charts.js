@@ -1,6 +1,5 @@
 import RSVP from 'rsvp';
 import Service from '@ember/service';
-import { debounce } from '@ember/runloop';
 
 export default Service.extend({
   language: 'en',
@@ -25,8 +24,8 @@ export default Service.extend({
         resolve();
       } else {
         charts.load('current', {
-          language: this.get('language'),
-          packages: this.get('googlePackages'),
+          language: this.language,
+          packages: this.googlePackages,
         });
 
         charts.setOnLoadCallback((ex) => {

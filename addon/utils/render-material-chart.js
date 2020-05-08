@@ -10,7 +10,7 @@ export default function renderMaterialChart(data, options) {
     design,
     element,
     type,
-  } = this.getProperties('design', 'element', 'type');
+  } = this;
 
   return renderChart(element, {
     data,
