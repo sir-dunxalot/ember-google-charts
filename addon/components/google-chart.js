@@ -76,6 +76,7 @@ export default Component.extend({
     }
 
     if (this.responsiveResize) {
+      this._handleResize = () => debounce(this, this._handlingResize, 200);
       window.addEventListener('resize', this._handleResize);
     }
   },
@@ -124,10 +125,6 @@ export default Component.extend({
 
   /* Private methods */
 
-  _handleResize() {
-    debounce(this, this._handlingResize, 200);
-  },
-
   _handlingResize() {
     const { element } = this;
 
@@ -135,8 +132,8 @@ export default Component.extend({
 
     /* Classic charts have an extra parent div */
 
-    const child = element.children;
-    const grandchild = child.children;
+    const child = element.children[0];
+    const grandchild = child.children[0];
     const chartContainer = getComputedStyle(grandchild)['position'] === 'absolute' ? child : grandchild;
 
     chartContainer.style.width = '';
